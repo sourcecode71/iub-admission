@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { UndergraduateSectionComponent } from './app/components/undergraduate-section.component';
 import { PostgraduateSectionComponent } from './app/components/postgraduate-section.component';
 
@@ -11,8 +9,6 @@ import { PostgraduateSectionComponent } from './app/components/postgraduate-sect
   standalone: true,
   imports: [
     CommonModule,
-    MatIconModule,
-    MatButtonModule,
     UndergraduateSectionComponent,
     PostgraduateSectionComponent
   ],
@@ -28,11 +24,11 @@ import { PostgraduateSectionComponent } from './app/components/postgraduate-sect
             </div>
             <div class="header-actions">
               <button class="header-btn">
-                <mat-icon>login</mat-icon>
+                <span class="material-icons">login</span>
                 Login
               </button>
               <button class="header-btn primary">
-                <mat-icon>person_add</mat-icon>
+                <span class="material-icons">person_add</span>
                 Register
               </button>
             </div>
@@ -63,7 +59,7 @@ import { PostgraduateSectionComponent } from './app/components/postgraduate-sect
 
         <!-- Important Notice -->
         <div class="notice-section">
-          <mat-icon class="notice-icon">warning</mat-icon>
+          <span class="material-icons notice-icon">warning</span>
           <div class="notice-content">
             <h4>Important Notice</h4>
             <p>Admission will be invalidated if false information is given. Please ensure all information provided during application is accurate and complete.</p>
@@ -79,11 +75,11 @@ import { PostgraduateSectionComponent } from './app/components/postgraduate-sect
           </p>
           <div class="cta-buttons">
             <button class="btn-primary">
-              <mat-icon>send</mat-icon>
+              <span class="material-icons">send</span>
               Apply Now
             </button>
             <button class="btn-secondary">
-              <mat-icon>info</mat-icon>
+              <span class="material-icons">info</span>
               View All Programs
             </button>
           </div>

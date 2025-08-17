@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
 import { AdmissionService } from '../services/admission.service';
 import { PostgraduateProgram } from '../interfaces/program.interface';
 
 @Component({
   selector: 'app-postgraduate-section',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule],
   template: `
     <div class="programs-grid">
       <div class="program-card" *ngFor="let program of postgraduatePrograms">
@@ -36,7 +35,7 @@ import { PostgraduateProgram } from '../interfaces/program.interface';
         
         <div class="program-actions">
           <button class="apply-button">
-            <mat-icon>send</mat-icon>
+            <span class="material-icons">send</span>
             Apply
           </button>
         </div>

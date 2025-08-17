@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
 import { AdmissionService } from '../services/admission.service';
 import { UndergraduateInfo } from '../interfaces/program.interface';
 
 @Component({
   selector: 'app-undergraduate-section',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule],
   template: `
     <div class="programs-grid">
       <!-- Undergraduate Programs Card -->
       <div class="program-card">
         <div class="program-header">
           <div class="program-icon">
-            <mat-icon>school</mat-icon>
+            <span class="material-icons">school</span>
           </div>
           <div>
             <h3 class="program-title">Undergraduate Programs</h3>
@@ -24,31 +23,31 @@ import { UndergraduateInfo } from '../interfaces/program.interface';
         
         <div class="program-details" *ngIf="undergraduateInfo">
           <div class="detail-item">
-            <mat-icon class="detail-icon">event</mat-icon>
+            <span class="material-icons detail-icon">event</span>
             <span class="detail-label">Academic Session:</span>
             <span class="session-badge">{{ undergraduateInfo.academicSession }}</span>
           </div>
           
           <div class="detail-item">
-            <mat-icon class="detail-icon">schedule</mat-icon>
+            <span class="material-icons detail-icon">schedule</span>
             <span class="detail-label">Application Deadline:</span>
             <span class="detail-value deadline-value">{{ undergraduateInfo.applicationDeadline }}</span>
           </div>
           
           <div class="detail-item">
-            <mat-icon class="detail-icon">assignment</mat-icon>
+            <span class="material-icons detail-icon">assignment</span>
             <span class="detail-label">Admission Test:</span>
             <span class="detail-value">{{ undergraduateInfo.admissionTest }}</span>
           </div>
           
           <div class="detail-item">
-            <mat-icon class="detail-icon">announcement</mat-icon>
+            <span class="material-icons detail-icon">announcement</span>
             <span class="detail-label">Result Publish:</span>
             <span class="detail-value">{{ undergraduateInfo.resultPublish }}</span>
           </div>
           
           <div class="detail-item">
-            <mat-icon class="detail-icon">how_to_reg</mat-icon>
+            <span class="material-icons detail-icon">how_to_reg</span>
             <span class="detail-label">Registration:</span>
             <span class="detail-value">{{ undergraduateInfo.registration }}</span>
           </div>
@@ -56,11 +55,11 @@ import { UndergraduateInfo } from '../interfaces/program.interface';
         
         <div class="program-actions">
           <button class="btn-primary">
-            <mat-icon>send</mat-icon>
+            <span class="material-icons">send</span>
             Apply Now
           </button>
           <button class="btn-secondary">
-            <mat-icon>info</mat-icon>
+            <span class="material-icons">info</span>
             More Details
           </button>
         </div>
@@ -70,7 +69,7 @@ import { UndergraduateInfo } from '../interfaces/program.interface';
       <div class="program-card">
         <div class="program-header">
           <div class="program-icon" style="background: linear-gradient(135deg, #059669, #10b981);">
-            <mat-icon>language</mat-icon>
+            <span class="material-icons">language</span>
           </div>
           <div>
             <h3 class="program-title">Foreign Students</h3>
@@ -80,25 +79,25 @@ import { UndergraduateInfo } from '../interfaces/program.interface';
         
         <div class="program-details">
           <div class="detail-item">
-            <mat-icon class="detail-icon">event</mat-icon>
+            <span class="material-icons detail-icon">event</span>
             <span class="detail-label">Academic Session:</span>
             <span class="session-badge">Autumn - 2025</span>
           </div>
           
           <div class="detail-item">
-            <mat-icon class="detail-icon">info</mat-icon>
+            <span class="material-icons detail-icon">info</span>
             <span class="detail-label">Process:</span>
             <span class="detail-value">Special admission process for international students</span>
           </div>
           
           <div class="detail-item">
-            <mat-icon class="detail-icon">email</mat-icon>
+            <span class="material-icons detail-icon">email</span>
             <span class="detail-label">Email:</span>
             <span class="detail-value">international&#64;iub.edu.bd</span>
           </div>
           
           <div class="detail-item">
-            <mat-icon class="detail-icon">phone</mat-icon>
+            <span class="material-icons detail-icon">phone</span>
             <span class="detail-label">Phone:</span>
             <span class="detail-value">+880-2-9291204-6</span>
           </div>
@@ -106,11 +105,11 @@ import { UndergraduateInfo } from '../interfaces/program.interface';
         
         <div class="program-actions">
           <button class="btn-primary" style="background: linear-gradient(135deg, #059669, #10b981);">
-            <mat-icon>mail</mat-icon>
+            <span class="material-icons">mail</span>
             Contact Office
           </button>
           <button class="btn-secondary" style="color: #059669; border-color: #059669;">
-            <mat-icon>info</mat-icon>
+            <span class="material-icons">info</span>
             Learn More
           </button>
         </div>
