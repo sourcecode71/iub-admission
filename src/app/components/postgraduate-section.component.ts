@@ -26,7 +26,7 @@ import { PostgraduateProgram } from '../interfaces/program.interface';
             <span class="detail-value deadline">{{ program.applicationLastDate }}</span>
           </div>
           
-          <div class="detail-line">
+          <div class="detail-line" [class.wrap-content]="program.admissionTestDate.length > 20">
             <span class="detail-label">Admission Test:</span>
             <span class="detail-value" [class]="program.admissionTestDate === 'TBA' ? 'tba' : 'test-date'">
               {{ program.admissionTestDate }}
@@ -80,9 +80,6 @@ import { PostgraduateProgram } from '../interfaces/program.interface';
       margin: 0 0 8px 0;
       line-height: 1.4;
       text-align: center;
-      background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
-      padding: 12px;
-      border-radius: 8px;
     }
     
     .program-details {
@@ -99,6 +96,16 @@ import { PostgraduateProgram } from '../interfaces/program.interface';
       padding: 8px 0;
     }
     
+    .detail-line.wrap-content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+    
+    .detail-line.wrap-content .detail-label {
+      min-width: auto;
+    }
+    
     .detail-label {
       font-size: 0.9rem;
       color: #374151;
@@ -108,13 +115,8 @@ import { PostgraduateProgram } from '../interfaces/program.interface';
     
     .detail-value {
       font-size: 0.9rem;
-      color: #6b7280;
+      color: #374151;
       font-weight: 500;
-    }
-    
-    .detail-value.session {
-      color: #8b5cf6;
-      font-weight: 600;
     }
     
     .detail-value.deadline {
