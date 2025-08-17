@@ -16,16 +16,19 @@ import { PostgraduateProgram } from '../interfaces/program.interface';
         
         <div class="program-details">
           <div class="detail-line">
+            <span class="material-icons detail-icon">event</span>
             <span class="detail-label">Season:</span>
             <span class="detail-value session">{{ program.session }}</span>
           </div>
           
           <div class="detail-line">
+            <span class="material-icons detail-icon">schedule</span>
             <span class="detail-label">Application Deadline:</span>
             <span class="detail-value deadline">{{ program.applicationLastDate }}</span>
           </div>
           
           <div class="detail-line" [class.wrap-content]="program.admissionTestDate.length > 20">
+            <span class="material-icons detail-icon">assignment</span>
             <span class="detail-label">Admission Test:</span>
             <span class="detail-value" [class]="program.admissionTestDate === 'TBA' ? 'tba' : 'test-date'">
               {{ program.admissionTestDate }}
@@ -103,6 +106,14 @@ import { PostgraduateProgram } from '../interfaces/program.interface';
     
     .detail-line.wrap-content .detail-label {
       min-width: auto;
+    }
+    
+    .detail-icon {
+      color: #8b5cf6;
+      font-size: 18px;
+      width: 18px;
+      margin-right: 8px;
+      flex-shrink: 0;
     }
     
     .detail-label {
