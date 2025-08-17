@@ -3,6 +3,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { UndergraduateSectionComponent } from './app/components/undergraduate-section.component';
 import { PostgraduateSectionComponent } from './app/components/postgraduate-section.component';
+import { LoginComponent } from './app/components/login.component';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,11 @@ import { PostgraduateSectionComponent } from './app/components/postgraduate-sect
   imports: [
     CommonModule,
     UndergraduateSectionComponent,
-    PostgraduateSectionComponent
+    PostgraduateSectionComponent,
+    LoginComponent
   ],
   template: `
-    <div class="app-container">
+    <div class="app-container" *ngIf="!showLogin">
       <!-- Header -->
       <div class="header-section">
         <div class="container">
@@ -23,7 +25,7 @@ import { PostgraduateSectionComponent } from './app/components/postgraduate-sect
               <p>Admission Portal - Academic Year 2025</p>
             </div>
             <div class="header-actions">
-              <button class="header-btn">
+              <button class="header-btn" (click)="showLoginPage()">
                 <span class="material-icons">login</span>
                 Login
               </button>
@@ -86,6 +88,9 @@ import { PostgraduateSectionComponent } from './app/components/postgraduate-sect
         </div>
       </div>
     </div>
+
+    <!-- Login Page -->
+    <app-login *ngIf="showLogin"></app-login>
   `,
   styles: [`
     .app-container {
@@ -95,9 +100,14 @@ import { PostgraduateSectionComponent } from './app/components/postgraduate-sect
   `]
 })
 export class App implements OnInit {
+  showLogin = false;
   
   ngOnInit() {
     // Component initialization
+  }
+
+  showLoginPage() {
+    this.showLogin = true;
   }
 }
 
