@@ -32,7 +32,7 @@ import { PostgraduateSectionComponent } from './app/components/postgraduate-sect
                 Login
               </button>
               <button class="header-btn primary">
-                <mat-icon>how_to_reg</mat-icon>
+                <mat-icon>person_add</mat-icon>
                 Register
               </button>
             </div>
@@ -79,7 +79,7 @@ import { PostgraduateSectionComponent } from './app/components/postgraduate-sect
           </p>
           <div class="cta-buttons">
             <button class="btn-primary">
-              <mat-icon>assignment</mat-icon>
+              <mat-icon>send</mat-icon>
               Apply Now
             </button>
             <button class="btn-secondary">

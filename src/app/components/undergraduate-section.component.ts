@@ -24,7 +24,7 @@ import { UndergraduateInfo } from '../interfaces/program.interface';
         
         <div class="program-details" *ngIf="undergraduateInfo">
           <div class="detail-item">
-            <mat-icon class="detail-icon">event_available</mat-icon>
+            <mat-icon class="detail-icon">event</mat-icon>
             <span class="detail-label">Academic Session:</span>
             <span class="session-badge">{{ undergraduateInfo.academicSession }}</span>
           </div>
@@ -36,7 +36,7 @@ import { UndergraduateInfo } from '../interfaces/program.interface';
           </div>
           
           <div class="detail-item">
-            <mat-icon class="detail-icon">quiz</mat-icon>
+            <mat-icon class="detail-icon">assignment</mat-icon>
             <span class="detail-label">Admission Test:</span>
             <span class="detail-value">{{ undergraduateInfo.admissionTest }}</span>
           </div>
@@ -48,7 +48,7 @@ import { UndergraduateInfo } from '../interfaces/program.interface';
           </div>
           
           <div class="detail-item">
-            <mat-icon class="detail-icon">confirmation_number</mat-icon>
+            <mat-icon class="detail-icon">how_to_reg</mat-icon>
             <span class="detail-label">Registration:</span>
             <span class="detail-value">{{ undergraduateInfo.registration }}</span>
           </div>
@@ -56,7 +56,7 @@ import { UndergraduateInfo } from '../interfaces/program.interface';
         
         <div class="program-actions">
           <button class="btn-primary">
-            <mat-icon>assignment</mat-icon>
+            <mat-icon>send</mat-icon>
             Apply Now
           </button>
           <button class="btn-secondary">
@@ -70,7 +70,7 @@ import { UndergraduateInfo } from '../interfaces/program.interface';
       <div class="program-card">
         <div class="program-header">
           <div class="program-icon" style="background: linear-gradient(135deg, #059669, #10b981);">
-            <mat-icon>public</mat-icon>
+            <mat-icon>language</mat-icon>
           </div>
           <div>
             <h3 class="program-title">Foreign Students</h3>
@@ -80,7 +80,7 @@ import { UndergraduateInfo } from '../interfaces/program.interface';
         
         <div class="program-details">
           <div class="detail-item">
-            <mat-icon class="detail-icon">event_available</mat-icon>
+            <mat-icon class="detail-icon">event</mat-icon>
             <span class="detail-label">Academic Session:</span>
             <span class="session-badge">Autumn - 2025</span>
           </div>
@@ -106,7 +106,7 @@ import { UndergraduateInfo } from '../interfaces/program.interface';
         
         <div class="program-actions">
           <button class="btn-primary" style="background: linear-gradient(135deg, #059669, #10b981);">
-            <mat-icon>contact_mail</mat-icon>
+            <mat-icon>mail</mat-icon>
             Contact Office
           </button>
           <button class="btn-secondary" style="color: #059669; border-color: #059669;">
