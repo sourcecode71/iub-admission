@@ -1,0 +1,108 @@
+import { Component, OnInit } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { UndergraduateSectionComponent } from './app/components/undergraduate-section.component';
+import { PostgraduateSectionComponent } from './app/components/postgraduate-section.component';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatButtonModule,
+    UndergraduateSectionComponent,
+    PostgraduateSectionComponent
+  ],
+  template: `
+    <div class="app-container">
+      <!-- Header -->
+      <div class="header-section">
+        <div class="container">
+          <div class="header-content">
+            <div class="header-info">
+              <h1>Independent University, Bangladesh</h1>
+              <p>Admission Portal - Academic Year 2025</p>
+            </div>
+            <div class="header-actions">
+              <button class="header-btn">
+                <mat-icon>login</mat-icon>
+                Login
+              </button>
+              <button class="header-btn primary">
+                <mat-icon>how_to_reg</mat-icon>
+                Register
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Hero Section -->
+        <div class="hero-section">
+          <h1 class="hero-title">Available Programs For Admission</h1>
+          <p class="hero-description">
+            Welcome to the Independent University, Bangladesh admission portal. 
+            Choose from our comprehensive range of undergraduate and postgraduate programs 
+            designed to shape tomorrow's leaders and innovators.
+          </p>
+        </div>
+
+        <!-- Undergraduate Programs -->
+        <app-undergraduate-section></app-undergraduate-section>
+
+        <!-- Postgraduate Programs -->
+        <div class="postgraduate-section">
+          <h2 class="section-title">Postgraduate Programs</h2>
+          <app-postgraduate-section></app-postgraduate-section>
+        </div>
+
+        <!-- Important Notice -->
+        <div class="notice-section">
+          <mat-icon class="notice-icon">warning</mat-icon>
+          <div class="notice-content">
+            <h4>Important Notice</h4>
+            <p>Admission will be invalidated if false information is given. Please ensure all information provided during application is accurate and complete.</p>
+          </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+          <h2 class="cta-title">Ready to Start Your Journey?</h2>
+          <p class="cta-description">
+            Join our comprehensive academic programs and embark on an exciting journey 
+            to master your chosen field of study at Independent University, Bangladesh.
+          </p>
+          <div class="cta-buttons">
+            <button class="btn-primary">
+              <mat-icon>assignment</mat-icon>
+              Apply Now
+            </button>
+            <button class="btn-secondary">
+              <mat-icon>info</mat-icon>
+              View All Programs
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
+  styles: [`
+    .app-container {
+      min-height: 100vh;
+      background-color: #f8f9fa;
+    }
+  `]
+})
+export class App implements OnInit {
+  
+  ngOnInit() {
+    // Component initialization
+  }
+}
+
+bootstrapApplication(App);
