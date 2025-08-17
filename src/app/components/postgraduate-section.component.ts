@@ -11,28 +11,26 @@ import { PostgraduateProgram } from '../interfaces/program.interface';
   template: `
     <div class="programs-grid">
       <div class="program-card" *ngFor="let program of postgraduatePrograms">
-        <div class="program-header">
+        <div class="program-title-section">
           <h3 class="program-title">{{ program.program }}</h3>
-          <span class="session-badge">{{ program.session }}</span>
         </div>
         
         <div class="program-details">
-          <div class="detail-row">
-            <mat-icon class="detail-icon">schedule</mat-icon>
-            <div class="detail-content">
-              <span class="detail-label">Application Deadline</span>
-              <span class="detail-value deadline">{{ program.applicationLastDate }}</span>
-            </div>
+          <div class="detail-line">
+            <span class="detail-label">Season:</span>
+            <span class="detail-value session">{{ program.session }}</span>
           </div>
           
-          <div class="detail-row">
-            <mat-icon class="detail-icon">event</mat-icon>
-            <div class="detail-content">
-              <span class="detail-label">Admission Test</span>
-              <span class="detail-value" [class]="program.admissionTestDate === 'TBA' ? 'tba' : 'test-date'">
-                {{ program.admissionTestDate }}
-              </span>
-            </div>
+          <div class="detail-line">
+            <span class="detail-label">Application Deadline:</span>
+            <span class="detail-value deadline">{{ program.applicationLastDate }}</span>
+          </div>
+          
+          <div class="detail-line">
+            <span class="detail-label">Admission Test:</span>
+            <span class="detail-value" [class]="program.admissionTestDate === 'TBA' ? 'tba' : 'test-date'">
+              {{ program.admissionTestDate }}
+            </span>
           </div>
         </div>
         
@@ -69,75 +67,64 @@ import { PostgraduateProgram } from '../interfaces/program.interface';
       border-color: #e2e8f0;
     }
     
-    .program-header {
-      margin-bottom: 20px;
+    .program-title-section {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #e2e8f0;
     }
     
     .program-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #1e293b;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #8b5cf6;
       margin: 0 0 8px 0;
       line-height: 1.4;
-    }
-    
-    .session-badge {
-      background: linear-gradient(135deg, #8b5cf6, #a855f7);
-      color: white;
-      padding: 4px 12px;
-      border-radius: 12px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      text-align: center;
+      background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+      padding: 12px;
+      border-radius: 8px;
     }
     
     .program-details {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
       margin-bottom: 24px;
     }
     
-    .detail-row {
+    .detail-line {
       display: flex;
-      align-items: flex-start;
-      gap: 12px;
-    }
-    
-    .detail-icon {
-      color: #8b5cf6;
-      font-size: 20px;
-      width: 20px;
-      margin-top: 2px;
-      flex-shrink: 0;
-    }
-    
-    .detail-content {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      flex: 1;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
     }
     
     .detail-label {
-      font-size: 0.85rem;
-      color: #64748b;
-      font-weight: 500;
+      font-size: 0.9rem;
+      color: #374151;
+      font-weight: 600;
+      min-width: 140px;
     }
     
     .detail-value {
-      font-size: 0.95rem;
-      color: #334155;
+      font-size: 0.9rem;
+      color: #6b7280;
+      font-weight: 500;
+    }
+    
+    .detail-value.session {
+      color: #8b5cf6;
       font-weight: 600;
     }
     
     .detail-value.deadline {
       color: #ef4444;
+      font-weight: 600;
     }
     
     .detail-value.test-date {
       color: #059669;
+      font-weight: 600;
     }
     
     .detail-value.tba {
@@ -184,10 +171,6 @@ import { PostgraduateProgram } from '../interfaces/program.interface';
       
       .program-card {
         padding: 20px;
-      }
-      
-      .program-title {
-        font-size: 1rem;
       }
     }
   `]
