@@ -417,4 +417,3 @@ export class LoginComponent {
     alert('Register functionality would be implemented here');
   }
 }
-</LoginComponent>
