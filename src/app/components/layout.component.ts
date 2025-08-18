@@ -13,11 +13,10 @@ import { CommonModule } from '@angular/common';
           <div class="header-content">
             <div class="header-brand">
               <div class="university-logo">
-                <span class="material-icons">school</span>
+                <img src="src/assets/iub_logo.png" alt="IUB Logo" class="logo-image">
               </div>
               <div class="brand-info">
                 <h1 class="brand-title">Independent University, Bangladesh</h1>
-                <p class="brand-subtitle">Admission Portal - Academic Year 2025</p>
               </div>
             </div>
             <div class="header-actions" *ngIf="showHeaderActions">
@@ -149,17 +148,18 @@ import { CommonModule } from '@angular/common';
     .university-logo {
       width: 50px;
       height: 50px;
-      background: rgba(255, 255, 255, 0.2);
+      background: white;
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      backdrop-filter: blur(10px);
+      padding: 4px;
     }
 
-    .university-logo .material-icons {
-      color: white;
-      font-size: 28px;
+    .logo-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     .brand-info h1 {

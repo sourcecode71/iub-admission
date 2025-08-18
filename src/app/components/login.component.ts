@@ -14,7 +14,7 @@ import { LayoutComponent } from './layout.component';
           <!-- Header -->
           <div class="login-header">
             <div class="university-logo">
-              <span class="material-icons">school</span>
+              <img src="src/assets/iub_logo.png" alt="IUB Logo" class="logo-image">
             </div>
             <h1 class="login-title">Welcome Back</h1>
             <p class="login-subtitle">Sign in to your admission portal</p>
@@ -122,18 +122,21 @@ import { LayoutComponent } from './layout.component';
     .university-logo {
       width: 80px;
       height: 80px;
-      background: linear-gradient(135deg, #8b5cf6, #a855f7);
+      background: white;
       border-radius: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 24px;
-      box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      padding: 8px;
+      border: 2px solid #e5e7eb;
     }
 
-    .university-logo .material-icons {
-      color: white;
-      font-size: 40px;
+    .logo-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     .login-title {
