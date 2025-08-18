@@ -1,172 +1,117 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LayoutComponent } from './layout.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LayoutComponent],
   template: `
-    <div class="login-container">
-      <div class="login-card">
-        <!-- Header -->
-        <div class="login-header">
-          <div class="university-logo">
-            <span class="material-icons">school</span>
-          </div>
-          <h1 class="login-title">Welcome Back</h1>
-          <p class="login-subtitle">Independent University, Bangladesh</p>
-          <p class="login-description">Sign in to your admission portal</p>
-        </div>
-
-        <!-- Login Form -->
-        <form class="login-form" (ngSubmit)="onLogin()">
-          <div class="form-group">
-            <label for="email" class="form-label">
-              <span class="material-icons">email</span>
-              Email Address
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              [(ngModel)]="loginData.email"
-              class="form-input"
-              placeholder="Enter your email address"
-              required
-            />
+    <app-layout [showHeaderActions]="false">
+      <div class="login-container">
+        <div class="login-card">
+          <!-- Header -->
+          <div class="login-header">
+            <div class="university-logo">
+              <span class="material-icons">school</span>
+            </div>
+            <h1 class="login-title">Welcome Back</h1>
+            <p class="login-subtitle">Sign in to your admission portal</p>
           </div>
 
-          <div class="form-group">
-            <label for="password" class="form-label">
-              <span class="material-icons">lock</span>
-              Password
-            </label>
-            <div class="password-input-container">
+          <!-- Login Form -->
+          <form class="login-form" (ngSubmit)="onLogin()">
+            <div class="form-group">
+              <label for="email" class="form-label">
+                <span class="material-icons">email</span>
+                Email Address
+              </label>
               <input
-                [type]="showPassword ? 'text' : 'password'"
-                id="password"
-                name="password"
-                [(ngModel)]="loginData.password"
+                type="email"
+                id="email"
+                name="email"
+                [(ngModel)]="loginData.email"
                 class="form-input"
-                placeholder="Enter your password"
+                placeholder="Enter your email address"
                 required
               />
-              <button
-                type="button"
-                class="password-toggle"
-                (click)="togglePassword()"
-              >
-                <span class="material-icons">
-                  {{ showPassword ? 'visibility_off' : 'visibility' }}
-                </span>
-              </button>
             </div>
+
+            <div class="form-group">
+              <label for="password" class="form-label">
+                <span class="material-icons">lock</span>
+                Password
+              </label>
+              <div class="password-input-container">
+                <input
+                  [type]="showPassword ? 'text' : 'password'"
+                  id="password"
+                  name="password"
+                  [(ngModel)]="loginData.password"
+                  class="form-input"
+                  placeholder="Enter your password"
+                  required
+                />
+                <button
+                  type="button"
+                  class="password-toggle"
+                  (click)="togglePassword()"
+                >
+                  <span class="material-icons">
+                    {{ showPassword ? 'visibility_off' : 'visibility' }}
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-options">
+              <label class="remember-me">
+                <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe">
+                <span class="checkmark"></span>
+                Remember me
+              </label>
+              <a href="#" class="forgot-password" (click)="onForgotPassword($event)">
+                Forgot Password?
+              </a>
+            </div>
+
+            <button type="submit" class="login-button">
+              <span class="material-icons">login</span>
+              Sign In
+            </button>
+          </form>
+
+          <!-- Footer -->
+          <div class="login-footer">
+            <p>Don't have an account? 
+              <a href="#" class="register-link" (click)="onRegister($event)">
+                Create Account
+              </a>
+            </p>
           </div>
-
-          <div class="form-options">
-            <label class="remember-me">
-              <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe">
-              <span class="checkmark"></span>
-              Remember me
-            </label>
-            <a href="#" class="forgot-password" (click)="onForgotPassword($event)">
-              Forgot Password?
-            </a>
-          </div>
-
-          <button type="submit" class="login-button">
-            <span class="material-icons">login</span>
-            Sign In
-          </button>
-        </form>
-
-        <!-- Footer -->
-        <div class="login-footer">
-          <p>Don't have an account? 
-            <a href="#" class="register-link" (click)="onRegister($event)">
-              Create Account
-            </a>
-          </p>
         </div>
       </div>
-
-      <!-- Background decoration -->
-      <div class="background-decoration">
-        <div class="decoration-circle circle-1"></div>
-        <div class="decoration-circle circle-2"></div>
-        <div class="decoration-circle circle-3"></div>
-      </div>
-    </div>
+    </app-layout>
   `,
   styles: [`
     .login-container {
-      min-height: 100vh;
+      min-height: calc(100vh - 200px);
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .background-decoration {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .decoration-circle {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      animation: float 6s ease-in-out infinite;
-    }
-
-    .circle-1 {
-      width: 200px;
-      height: 200px;
-      top: 10%;
-      left: 10%;
-      animation-delay: 0s;
-    }
-
-    .circle-2 {
-      width: 150px;
-      height: 150px;
-      top: 60%;
-      right: 15%;
-      animation-delay: 2s;
-    }
-
-    .circle-3 {
-      width: 100px;
-      height: 100px;
-      bottom: 20%;
-      left: 20%;
-      animation-delay: 4s;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
+      padding: 40px 20px;
+      background: transparent;
     }
 
     .login-card {
       background: white;
       border-radius: 20px;
       padding: 40px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       width: 100%;
       max-width: 450px;
-      position: relative;
-      z-index: 2;
-      backdrop-filter: blur(10px);
+      border: 1px solid #e5e7eb;
     }
 
     .login-header {
@@ -203,12 +148,6 @@ import { FormsModule } from '@angular/forms';
       color: #8b5cf6;
       font-weight: 600;
       margin-bottom: 4px;
-    }
-
-    .login-description {
-      color: #6b7280;
-      font-size: 0.95rem;
-      margin: 0;
     }
 
     .login-form {
@@ -366,7 +305,6 @@ import { FormsModule } from '@angular/forms';
     @media (max-width: 480px) {
       .login-card {
         padding: 32px 24px;
-        margin: 16px;
       }
 
       .login-title {
@@ -380,6 +318,10 @@ import { FormsModule } from '@angular/forms';
 
       .university-logo .material-icons {
         font-size: 35px;
+      }
+
+      .login-container {
+        padding: 20px 16px;
       }
     }
   `]
