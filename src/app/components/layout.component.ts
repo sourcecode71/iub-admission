@@ -56,7 +56,7 @@ import { CommonModule } from '@angular/common';
                 </div>
                 <div class="contact-item">
                   <span class="material-icons">email</span>
-                  <span>admission@iub.edu.bd</span>
+                  <span>admission&#64;iub.edu.bd</span>
                 </div>
               </div>
             </div>
