@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 
 @Component({
   selector: 'app-registration',
   standalone: true,
-  imports: [CommonModule, FormsModule, LayoutComponent],
+  imports: [CommonModule, FormsModule, RouterLink, LayoutComponent],
   template: `
     <app-layout [showHeaderActions]="false">
       <div class="registration-container">
@@ -22,214 +23,211 @@ import { LayoutComponent } from './layout.component';
 
           <!-- Registration Form -->
           <form class="registration-form" (ngSubmit)="onRegister()">
-            <!-- Name Fields Row -->
-            <div class="form-row">
+            <!-- Personal Information -->
+            <div class="form-section">
+              <h3 class="section-title">
+                <span class="material-icons">person</span>
+                Personal Information
+              </h3>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="firstName" class="form-label">First Name</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    [(ngModel)]="registrationData.firstName"
+                    class="form-input"
+                    placeholder="Enter your first name"
+                    required
+                  />
+                </div>
+                
+                <div class="form-group">
+                  <label for="lastName" class="form-label">Last Name</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    [(ngModel)]="registrationData.lastName"
+                    class="form-input"
+                    placeholder="Enter your last name"
+                    required
+                  />
+                </div>
+              </div>
+              
               <div class="form-group">
-                <label for="firstName" class="form-label required">
-                  <span class="material-icons">person</span>
-                  First Name
-                </label>
+                <label for="email" class="form-label">Email Address</label>
                 <input
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  [(ngModel)]="registrationData.firstName"
+                  type="email"
+                  id="email"
+                  name="email"
+                  [(ngModel)]="registrationData.email"
                   class="form-input"
-                  placeholder="Enter your first name"
+                  placeholder="Enter your email address"
                   required
                 />
-                <div class="field-info">
-                  <span class="material-icons info-icon">info</span>
-                  <span class="info-text">Your name must be as per certificate.</span>
-                </div>
               </div>
-
-              <div class="form-group">
-                <label for="lastName" class="form-label">
-                  <span class="material-icons">person_outline</span>
-                  Last Name (Surname)
-                </label>
-                <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  [(ngModel)]="registrationData.lastName"
-                  class="form-input"
-                  placeholder="Enter your last name"
-                />
-                <div class="field-info">
-                  <span class="material-icons info-icon">info</span>
-                  <span class="info-text">Your name must be as per certificate.</span>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="phone" class="form-label">Phone Number</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    [(ngModel)]="registrationData.phone"
+                    class="form-input"
+                    placeholder="Enter your phone number"
+                    required
+                  />
+                </div>
+                
+                <div class="form-group">
+                  <label for="dateOfBirth" class="form-label">Date of Birth</label>
+                  <input
+                    type="date"
+                    id="dateOfBirth"
+                    name="dateOfBirth"
+                    [(ngModel)]="registrationData.dateOfBirth"
+                    class="form-input"
+                    required
+                  />
                 </div>
               </div>
             </div>
 
-            <!-- Email Field -->
-            <div class="form-group">
-              <label for="email" class="form-label required">
-                <span class="material-icons">email</span>
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                [(ngModel)]="registrationData.email"
-                class="form-input"
-                placeholder="Enter your email address"
-                required
-              />
-              <div class="field-info">
-                <span class="material-icons info-icon">info</span>
-                <span class="info-text">We'll use this email for all communications.</span>
+            <!-- Account Security -->
+            <div class="form-section">
+              <h3 class="section-title">
+                <span class="material-icons">security</span>
+                Account Security
+              </h3>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="password" class="form-label">Password</label>
+                  <div class="password-input-container">
+                    <input
+                      [type]="showPassword ? 'text' : 'password'"
+                      id="password"
+                      name="password"
+                      [(ngModel)]="registrationData.password"
+                      class="form-input"
+                      placeholder="Create a strong password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      class="password-toggle"
+                      (click)="togglePassword()"
+                    >
+                      <span class="material-icons">
+                        {{ showPassword ? 'visibility_off' : 'visibility' }}
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="confirmPassword" class="form-label">Confirm Password</label>
+                  <div class="password-input-container">
+                    <input
+                      [type]="showConfirmPassword ? 'text' : 'password'"
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      [(ngModel)]="registrationData.confirmPassword"
+                      class="form-input"
+                      placeholder="Confirm your password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      class="password-toggle"
+                      (click)="toggleConfirmPassword()"
+                    >
+                      <span class="material-icons">
+                        {{ showConfirmPassword ? 'visibility_off' : 'visibility' }}
+                      </span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <!-- Country and Phone Row -->
-            <div class="form-row">
+            <!-- Program Selection -->
+            <div class="form-section">
+              <h3 class="section-title">
+                <span class="material-icons">school</span>
+                Program Selection
+              </h3>
+              
               <div class="form-group">
-                <label for="country" class="form-label required">
-                  <span class="material-icons">public</span>
-                  Country
-                </label>
+                <label for="programType" class="form-label">Program Type</label>
                 <select
-                  id="country"
-                  name="country"
-                  [(ngModel)]="registrationData.country"
-                  class="form-select"
+                  id="programType"
+                  name="programType"
+                  [(ngModel)]="registrationData.programType"
+                  class="form-input"
                   required
                 >
-                  <option value="">Select Country</option>
-                  <option value="BD">Bangladesh</option>
-                  <option value="IN">India</option>
-                  <option value="PK">Pakistan</option>
-                  <option value="NP">Nepal</option>
-                  <option value="LK">Sri Lanka</option>
-                  <option value="MY">Malaysia</option>
-                  <option value="SG">Singapore</option>
-                  <option value="TH">Thailand</option>
-                  <option value="US">United States</option>
-                  <option value="CA">Canada</option>
-                  <option value="GB">United Kingdom</option>
-                  <option value="AU">Australia</option>
-                  <option value="DE">Germany</option>
-                  <option value="FR">France</option>
-                  <option value="JP">Japan</option>
-                  <option value="KR">South Korea</option>
-                  <option value="CN">China</option>
-                  <option value="AE">United Arab Emirates</option>
-                  <option value="SA">Saudi Arabia</option>
-                  <option value="OTHER">Other</option>
+                  <option value="">Select program type</option>
+                  <option value="undergraduate">Undergraduate</option>
+                  <option value="postgraduate">Postgraduate</option>
                 </select>
               </div>
-
+              
               <div class="form-group">
-                <label for="cellPhone" class="form-label required">
-                  <span class="material-icons">phone</span>
-                  Cell Phone
-                </label>
-                <input
-                  type="tel"
-                  id="cellPhone"
-                  name="cellPhone"
-                  [(ngModel)]="registrationData.cellPhone"
+                <label for="program" class="form-label">Preferred Program</label>
+                <select
+                  id="program"
+                  name="program"
+                  [(ngModel)]="registrationData.program"
                   class="form-input"
-                  placeholder="Enter your phone number"
                   required
-                />
-              </div>
-            </div>
-
-            <!-- Password Fields -->
-            <div class="form-group">
-              <label for="password" class="form-label required">
-                <span class="material-icons">lock</span>
-                Password
-              </label>
-              <div class="password-input-container">
-                <input
-                  [type]="showPassword ? 'text' : 'password'"
-                  id="password"
-                  name="password"
-                  [(ngModel)]="registrationData.password"
-                  class="form-input"
-                  placeholder="Create a password"
-                  required
-                  minlength="6"
-                />
-                <button
-                  type="button"
-                  class="password-toggle"
-                  (click)="togglePassword()"
                 >
-                  <span class="material-icons">
-                    {{ showPassword ? 'visibility_off' : 'visibility' }}
-                  </span>
-                </button>
-              </div>
-              <div class="field-info">
-                <span class="material-icons info-icon">info</span>
-                <span class="info-text">Use 6 or more characters</span>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="confirmPassword" class="form-label required">
-                <span class="material-icons">lock_outline</span>
-                Confirm Password
-              </label>
-              <div class="password-input-container">
-                <input
-                  [type]="showConfirmPassword ? 'text' : 'password'"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  [(ngModel)]="registrationData.confirmPassword"
-                  class="form-input"
-                  placeholder="Confirm your password"
-                  required
-                  minlength="6"
-                />
-                <button
-                  type="button"
-                  class="password-toggle"
-                  (click)="toggleConfirmPassword()"
-                >
-                  <span class="material-icons">
-                    {{ showConfirmPassword ? 'visibility_off' : 'visibility' }}
-                  </span>
-                </button>
-              </div>
-              <div class="password-match-indicator" *ngIf="registrationData.confirmPassword">
-                <span class="material-icons" [class]="passwordsMatch ? 'match' : 'no-match'">
-                  {{ passwordsMatch ? 'check_circle' : 'cancel' }}
-                </span>
-                <span class="match-text" [class]="passwordsMatch ? 'match' : 'no-match'">
-                  {{ passwordsMatch ? 'Passwords match' : 'Passwords do not match' }}
-                </span>
+                  <option value="">Select your preferred program</option>
+                  <option value="cse">Computer Science & Engineering</option>
+                  <option value="eee">Electrical & Electronic Engineering</option>
+                  <option value="bba">Business Administration</option>
+                  <option value="law">Law</option>
+                  <option value="english">English</option>
+                </select>
               </div>
             </div>
 
             <!-- Terms and Conditions -->
-            <div class="form-group">
-              <label class="checkbox-label">
-                <input 
-                  type="checkbox" 
-                  [(ngModel)]="acceptTerms" 
-                  name="acceptTerms"
-                  required
-                >
-                <span class="checkmark"></span>
-                I agree to the <a href="#" class="terms-link">Terms and Conditions</a> and <a href="#" class="terms-link">Privacy Policy</a>
-              </label>
+            <div class="form-section">
+              <div class="terms-group">
+                <label class="terms-checkbox">
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="acceptTerms"
+                    name="acceptTerms"
+                    required
+                  >
+                  <span class="checkmark"></span>
+                  I accept the 
+                  <a href="#" class="terms-link">Terms and Conditions</a> and 
+                  <a href="#" class="terms-link">Privacy Policy</a>
+                </label>
+                
+                <label class="terms-checkbox">
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="newsletter"
+                    name="newsletter"
+                  >
+                  <span class="checkmark"></span>
+                  I want to receive updates and newsletters
+                </label>
+              </div>
             </div>
 
             <!-- Submit Button -->
-            <button 
-              type="submit" 
-              class="registration-button"
-              [disabled]="!isFormValid()"
-              [class.disabled]="!isFormValid()"
-            >
+            <button type="submit" class="register-button" [disabled]="!acceptTerms">
               <span class="material-icons">person_add</span>
               Create Account
             </button>
@@ -238,7 +236,7 @@ import { LayoutComponent } from './layout.component';
           <!-- Footer -->
           <div class="registration-footer">
             <p>Already have an account? 
-              <a href="#" class="login-link" (click)="onLogin($event)">
+              <a routerLink="/login" class="login-link">
                 <span class="material-icons">check_circle_outline</span>
                 Login
               </a>
@@ -264,7 +262,7 @@ import { LayoutComponent } from './layout.component';
       padding: 40px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       width: 100%;
-      max-width: 600px;
+      max-width: 700px;
       border: 1px solid #e5e7eb;
     }
 
@@ -311,40 +309,56 @@ import { LayoutComponent } from './layout.component';
       margin-bottom: 32px;
     }
 
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
+    .form-section {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .form-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #374151;
       margin-bottom: 24px;
+    }
+
+    .section-title .material-icons {
+      color: #8b5cf6;
+      font-size: 20px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 24px;
     }
 
     .form-group {
+      flex: 1;
       margin-bottom: 24px;
     }
 
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
     .form-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      display: block;
       font-weight: 600;
       color: #374151;
       margin-bottom: 8px;
       font-size: 0.9rem;
     }
 
-    .form-label.required::after {
-      content: '*';
-      color: #ef4444;
-      margin-left: 4px;
-    }
-
-    .form-label .material-icons {
-      font-size: 18px;
-      color: #8b5cf6;
-    }
-
-    .form-input,
-    .form-select {
+    .form-input {
       width: 100%;
       padding: 14px 16px;
       border: 2px solid #e5e7eb;
@@ -354,16 +368,11 @@ import { LayoutComponent } from './layout.component';
       background: #f9fafb;
     }
 
-    .form-input:focus,
-    .form-select:focus {
+    .form-input:focus {
       outline: none;
       border-color: #8b5cf6;
       background: white;
       box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
-    }
-
-    .form-select {
-      cursor: pointer;
     }
 
     .password-input-container {
@@ -392,41 +401,13 @@ import { LayoutComponent } from './layout.component';
       font-size: 20px;
     }
 
-    .field-info {
+    .terms-group {
       display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 6px;
-      font-size: 0.8rem;
-      color: #6b7280;
+      flex-direction: column;
+      gap: 16px;
     }
 
-    .info-icon {
-      font-size: 14px !important;
-      color: #8b5cf6;
-    }
-
-    .password-match-indicator {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 8px;
-      font-size: 0.85rem;
-    }
-
-    .password-match-indicator .material-icons {
-      font-size: 16px;
-    }
-
-    .password-match-indicator .match {
-      color: #059669;
-    }
-
-    .password-match-indicator .no-match {
-      color: #ef4444;
-    }
-
-    .checkbox-label {
+    .terms-checkbox {
       display: flex;
       align-items: flex-start;
       gap: 12px;
@@ -436,7 +417,7 @@ import { LayoutComponent } from './layout.component';
       line-height: 1.5;
     }
 
-    .checkbox-label input[type="checkbox"] {
+    .terms-checkbox input[type="checkbox"] {
       width: 18px;
       height: 18px;
       accent-color: #8b5cf6;
@@ -446,16 +427,14 @@ import { LayoutComponent } from './layout.component';
     .terms-link {
       color: #8b5cf6;
       text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
+      font-weight: 600;
     }
 
     .terms-link:hover {
-      color: #7c3aed;
       text-decoration: underline;
     }
 
-    .registration-button {
+    .register-button {
       width: 100%;
       background: linear-gradient(135deg, #8b5cf6, #a855f7);
       color: white;
@@ -471,21 +450,22 @@ import { LayoutComponent } from './layout.component';
       justify-content: center;
       gap: 8px;
       box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-      margin-top: 32px;
+      margin-top: 20px;
     }
 
-    .registration-button:hover:not(.disabled) {
+    .register-button:hover:not(:disabled) {
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
     }
 
-    .registration-button:active:not(.disabled) {
+    .register-button:active:not(:disabled) {
       transform: translateY(0);
     }
 
-    .registration-button.disabled {
-      background: #9ca3af;
+    .register-button:disabled {
+      background: #d1d5db;
       cursor: not-allowed;
+      transform: none;
       box-shadow: none;
     }
 
@@ -499,16 +479,20 @@ import { LayoutComponent } from './layout.component';
       color: #6b7280;
       font-size: 0.9rem;
       margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .login-link {
       color: #8b5cf6;
       text-decoration: none;
       font-weight: 600;
-      transition: color 0.3s ease;
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      transition: color 0.3s ease;
     }
 
     .login-link:hover {
@@ -516,18 +500,9 @@ import { LayoutComponent } from './layout.component';
       text-decoration: underline;
     }
 
-    .login-link .material-icons {
-      font-size: 18px;
-    }
-
     @media (max-width: 768px) {
       .registration-card {
         padding: 32px 24px;
-      }
-
-      .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
       }
 
       .registration-title {
@@ -539,6 +514,11 @@ import { LayoutComponent } from './layout.component';
         height: 70px;
       }
 
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+
       .registration-container {
         padding: 20px 16px;
       }
@@ -546,16 +526,16 @@ import { LayoutComponent } from './layout.component';
 
     @media (max-width: 480px) {
       .registration-card {
-        padding: 24px 20px;
+        padding: 24px 16px;
       }
 
-      .registration-title {
-        font-size: 1.5rem;
+      .section-title {
+        font-size: 1.1rem;
       }
 
-      .university-logo {
-        width: 60px;
-        height: 60px;
+      .form-section {
+        margin-bottom: 24px;
+        padding-bottom: 24px;
       }
     }
   `]
@@ -565,20 +545,18 @@ export class RegistrationComponent {
     firstName: '',
     lastName: '',
     email: '',
-    country: '',
-    cellPhone: '',
+    phone: '',
+    dateOfBirth: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    programType: '',
+    program: ''
   };
-  
+
   showPassword = false;
   showConfirmPassword = false;
   acceptTerms = false;
-
-  get passwordsMatch(): boolean {
-    return this.registrationData.password === this.registrationData.confirmPassword && 
-           this.registrationData.confirmPassword.length > 0;
-  }
+  newsletter = false;
 
   togglePassword() {
     this.showPassword = !this.showPassword;
@@ -588,28 +566,26 @@ export class RegistrationComponent {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  isFormValid(): boolean {
-    return this.registrationData.firstName.trim() !== '' &&
-           this.registrationData.email.trim() !== '' &&
-           this.registrationData.country !== '' &&
-           this.registrationData.cellPhone.trim() !== '' &&
-           this.registrationData.password.length >= 6 &&
-           this.passwordsMatch &&
-           this.acceptTerms;
-  }
-
   onRegister() {
-    if (this.isFormValid()) {
-      console.log('Registration attempt:', this.registrationData);
-      // Add your registration logic here
-      alert('Registration functionality would be implemented here');
+    if (!this.acceptTerms) {
+      alert('Please accept the Terms and Conditions to proceed.');
+      return;
     }
+
+    if (this.registrationData.password !== this.registrationData.confirmPassword) {
+      alert('Passwords do not match. Please check and try again.');
+      return;
+    }
+
+    console.log('Registration attempt:', this.registrationData);
+    // Add your registration logic here
+    alert('Registration functionality would be implemented here');
   }
 
   onLogin(event: Event) {
     event.preventDefault();
     console.log('Login clicked');
     // Add navigation to login page logic here
-    alert('Navigate to login page');
+    alert('Login functionality would be implemented here');
   }
 }

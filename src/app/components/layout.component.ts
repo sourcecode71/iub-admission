@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   template: `
     <div class="layout-container">
       <!-- Header -->
@@ -20,11 +21,11 @@ import { CommonModule } from '@angular/common';
               </div>
             </div>
             <div class="header-actions" *ngIf="showHeaderActions">
-              <button class="header-btn" (click)="onLogin()">
+              <button class="header-btn" routerLink="/login">
                 <span class="material-icons">login</span>
                 Login
               </button>
-              <button class="header-btn primary" (click)="onRegister()">
+              <button class="header-btn primary" routerLink="/register">
                 <span class="material-icons">person_add</span>
                 Register
               </button>

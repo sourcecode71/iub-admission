@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, LayoutComponent],
+  imports: [CommonModule, FormsModule, RouterLink, LayoutComponent],
   template: `
     <app-layout [showHeaderActions]="false">
       <div class="login-container">
@@ -84,8 +85,8 @@ import { LayoutComponent } from './layout.component';
 
           <!-- Footer -->
           <div class="login-footer">
-            <p>Don't have an account? 
-              <a href="#" class="register-link" (click)="onRegister($event)">
+            <p>Don't have an account?
+              <a routerLink="/register" class="register-link">
                 Create Account
               </a>
             </p>
