@@ -14,7 +14,7 @@ import { LayoutComponent } from './layout.component';
           <!-- Header -->
           <div class="login-header">
             <div class="university-logo">
-              <img src="src/assets/iub_logo.png" alt="IUB Logo" class="logo-image">
+              <img src="assets/iub_logo.png" alt="IUB Logo" class="logo-image">
             </div>
             <h1 class="login-title">Welcome Back</h1>
             <p class="login-subtitle">Sign in to your admission portal</p>

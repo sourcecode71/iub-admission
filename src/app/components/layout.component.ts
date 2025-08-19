@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
           <div class="header-content">
             <div class="header-brand">
               <div class="university-logo">
-                <img src="src/assets/iub_logo.png" alt="IUB Logo" class="logo-image">
+                <img src="assets/iub_logo.png" alt="IUB Logo" class="logo-image">
               </div>
               <div class="brand-info">
                 <h1 class="brand-title">Independent University, Bangladesh</h1>
