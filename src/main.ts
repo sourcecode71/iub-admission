@@ -5,6 +5,7 @@ import { LayoutComponent } from './app/components/layout.component';
 import { UndergraduateSectionComponent } from './app/components/undergraduate-section.component';
 import { PostgraduateSectionComponent } from './app/components/postgraduate-section.component';
 import { LoginComponent } from './app/components/login.component';
+import { RegistrationComponent } from './app/components/registration.component';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,8 @@ import { LoginComponent } from './app/components/login.component';
     LayoutComponent,
     UndergraduateSectionComponent,
     PostgraduateSectionComponent,
-    LoginComponent
+    LoginComponent,
+    RegistrationComponent
   ],
   template: `
     <!-- Home Page -->
@@ -72,6 +74,9 @@ import { LoginComponent } from './app/components/login.component';
 
     <!-- Login Page -->
     <app-login *ngIf="showLogin"></app-login>
+
+    <!-- Registration Page -->
+    <app-registration *ngIf="showRegistration"></app-registration>
   `,
   styles: [`
     .hero-section {
@@ -255,6 +260,7 @@ import { LoginComponent } from './app/components/login.component';
 })
 export class App implements OnInit {
   showLogin = false;
+  showRegistration = false;
   
   ngOnInit() {
     // Component initialization
@@ -262,6 +268,12 @@ export class App implements OnInit {
 
   showLoginPage() {
     this.showLogin = true;
+    this.showRegistration = false;
+  }
+
+  showRegistrationPage() {
+    this.showRegistration = true;
+    this.showLogin = false;
   }
 }
 
