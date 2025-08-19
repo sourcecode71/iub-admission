@@ -117,7 +117,7 @@ import { RouterLink } from '@angular/router';
     }
 
     .header {
-      background: linear-gradient(135deg, #1e40af, #1d4ed8);
+      background: rgb(46, 50, 142);
       color: white;
       padding: 16px 0;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);

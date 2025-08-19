@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 
 @Component({
@@ -72,7 +72,7 @@ import { LayoutComponent } from './layout.component';
                 <span class="checkmark"></span>
                 Remember me
               </label>
-              <a href="#" class="forgot-password" (click)="onForgotPassword($event)">
+              <a routerLink="/forgot-password" class="forgot-password">
                 Forgot Password?
               </a>
             </div>
@@ -339,6 +339,8 @@ export class LoginComponent {
   showPassword = false;
   rememberMe = false;
 
+  constructor(private router: Router) {}
+
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
@@ -347,19 +349,5 @@ export class LoginComponent {
     console.log('Login attempt:', this.loginData);
     // Add your login logic here
     alert('Login functionality would be implemented here');
-  }
-
-  onForgotPassword(event: Event) {
-    event.preventDefault();
-    console.log('Forgot password clicked');
-    // Add forgot password logic here
-    alert('Forgot password functionality would be implemented here');
-  }
-
-  onRegister(event: Event) {
-    event.preventDefault();
-    console.log('Register clicked');
-    // Add navigation to register page logic here
-    alert('Register functionality would be implemented here');
   }
 }
