@@ -24,6 +24,9 @@ import { RouterLink } from '@angular/router';
             <!-- Navigation Menu -->
             <nav class="main-navigation" *ngIf="showHeaderActions">
               <ul class="nav-menu">
+                <li class="nav-item">
+                  <a routerLink="" class="nav-link">Home</a>
+                </li>
                 <li class="nav-item dropdown">
                   <a href="#" class="nav-link" (click)="$event.preventDefault()">
                     <span>Undergraduate</span>
@@ -55,17 +58,7 @@ import { RouterLink } from '@angular/router';
                 </li>
               </ul>
             </nav>
-            
-            <div class="header-actions" *ngIf="showHeaderActions">
-              <button class="header-btn" routerLink="/login">
-                <span class="material-icons">login</span>
-                Login
-              </button>
-              <button class="header-btn primary" routerLink="/register">
-                <span class="material-icons">person_add</span>
-                Register
-              </button>
-            </div>
+           
           </div>
         </div>
       </header>
