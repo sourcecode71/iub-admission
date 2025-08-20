@@ -97,7 +97,7 @@ import { LayoutComponent } from './layout.component';
                   <span class="material-icons contact-icon">email</span>
                   <div class="contact-details">
                     <span class="contact-label">Email:</span>
-                    <span class="contact-value">gsb@iub.edu.bd</span>
+                    <span class="contact-value">gsb&#64;iub.edu.bd</span>
                   </div>
                 </div>
               </div>
@@ -298,7 +298,7 @@ import { LayoutComponent } from './layout.component';
                   <span class="material-icons contact-icon">email</span>
                   <div class="contact-details">
                     <span class="contact-label">Email:</span>
-                    <span class="contact-value">shahina@iub.edu.bd</span>
+                    <span class="contact-value">shahina&#64;iub.edu.bd</span>
                   </div>
                 </div>
               </div>
@@ -342,7 +342,7 @@ import { LayoutComponent } from './layout.component';
                   <span class="material-icons contact-icon">email</span>
                   <div class="contact-details">
                     <span class="contact-label">Email:</span>
-                    <span class="contact-value">barin@iub.edu.bd</span>
+                    <span class="contact-value">barin&#64;iub.edu.bd</span>
                   </div>
                 </div>
               </div>
@@ -363,7 +363,7 @@ import { LayoutComponent } from './layout.component';
                   <span class="material-icons contact-icon">email</span>
                   <div class="contact-details">
                     <span class="contact-label">Email:</span>
-                    <span class="contact-value">english@iub.edu.bd</span>
+                    <span class="contact-value">english&#64;iub.edu.bd</span>
                   </div>
                 </div>
               </div>
@@ -397,7 +397,7 @@ import { LayoutComponent } from './layout.component';
                   <span class="material-icons contact-icon">email</span>
                   <div class="contact-details">
                     <span class="contact-label">Email:</span>
-                    <span class="contact-value">mediacomm@iub.edu.bd</span>
+                    <span class="contact-value">mediacomm&#64;iub.edu.bd</span>
                   </div>
                 </div>
               </div>
@@ -440,7 +440,7 @@ import { LayoutComponent } from './layout.component';
                   <span class="material-icons contact-icon">email</span>
                   <div class="contact-details">
                     <span class="contact-label">General Email:</span>
-                    <span class="contact-value">admission@iub.edu.bd</span>
+                    <span class="contact-value">"admission&#64;iub.edu.bd"</span>
                   </div>
                 </div>
               </div>
@@ -623,7 +623,7 @@ import { LayoutComponent } from './layout.component';
       line-height: 1.4;
     }
 
-    @media (max-width: 768px) {
+    &#64;media (max-width: 768px) {
       .main-content {
         padding: 0 16px 32px;
       }
