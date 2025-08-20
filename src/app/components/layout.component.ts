@@ -20,6 +20,42 @@ import { RouterLink } from '@angular/router';
                 <h1 class="brand-title">Independent University, Bangladesh</h1>
               </div>
             </div>
+            
+            <!-- Navigation Menu -->
+            <nav class="main-navigation" *ngIf="showHeaderActions">
+              <ul class="nav-menu">
+                <li class="nav-item dropdown">
+                  <a href="#" class="nav-link" (click)="$event.preventDefault()">
+                    <span>Undergraduate</span>
+                    <span class="material-icons dropdown-icon">keyboard_arrow_down</span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#" class="dropdown-link">Calendar</a></li>
+                    <li><a href="#" class="dropdown-link">Exam Schedule</a></li>
+                    <li><a href="#" class="dropdown-link">Sample Question</a></li>
+                    <li><a href="#" class="dropdown-link">Undergraduate Program</a></li>
+                  </ul>
+                </li>
+                
+                <li class="nav-item dropdown">
+                  <a href="#" class="nav-link" (click)="$event.preventDefault()">
+                    <span>Graduate</span>
+                    <span class="material-icons dropdown-icon">keyboard_arrow_down</span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#" class="dropdown-link">MBA Eligibility</a></li>
+                    <li><a href="#" class="dropdown-link">EMBA Eligibility</a></li>
+                    <li><a href="#" class="dropdown-link">MSc Eligibility</a></li>
+                    <li><a href="#" class="dropdown-link">Development Studies Eligibility</a></li>
+                  </ul>
+                </li>
+                
+                <li class="nav-item">
+                  <a href="#" class="nav-link">Contact</a>
+                </li>
+              </ul>
+            </nav>
+            
             <div class="header-actions" *ngIf="showHeaderActions">
               <button class="header-btn" routerLink="/login">
                 <span class="material-icons">login</span>
@@ -176,10 +212,99 @@ import { RouterLink } from '@angular/router';
       margin: 0;
     }
 
+    .main-navigation {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      margin: 0 32px;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .dropdown-icon {
+      font-size: 18px;
+      transition: transform 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-icon {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border: 1px solid #e5e7eb;
+      min-width: 220px;
+      padding: 8px 0;
+      list-style: none;
+      margin: 8px 0 0 0;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-link {
+      display: block;
+      color: #374151;
+      text-decoration: none;
+      padding: 12px 20px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .dropdown-link:hover {
+      background: #f8fafc;
+      color: rgb(46, 50, 142);
+      border-left-color: rgb(46, 50, 142);
+    }
+
     .header-actions {
       display: flex;
       gap: 12px;
       align-items: center;
+      flex-shrink: 0;
     }
 
     .header-btn {
@@ -345,14 +470,71 @@ import { RouterLink } from '@angular/router';
       }
 
       .header-content {
-        flex-direction: column;
+        flex-wrap: wrap;
         text-align: center;
         gap: 12px;
       }
 
       .header-brand {
-        flex-direction: column;
+        flex-direction: row;
         gap: 12px;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .main-navigation {
+        order: 3;
+        width: 100%;
+        margin: 16px 0 0 0;
+        justify-content: center;
+      }
+
+      .nav-menu {
+        flex-direction: column;
+        gap: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 12px 0;
+      }
+
+      .nav-item {
+        width: 100%;
+      }
+
+      .nav-link {
+        justify-content: center;
+        width: 100%;
+        padding: 12px 20px;
+      }
+
+      .dropdown-menu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        border: none;
+        background: rgba(255, 255, 255, 0.05);
+        margin: 0;
+        border-radius: 0;
+        display: none;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        display: block;
+      }
+
+      .dropdown-link {
+        color: rgba(255, 255, 255, 0.9);
+        border-left: none;
+        padding: 8px 40px;
+        font-size: 0.9rem;
+      }
+
+      .dropdown-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
       }
 
       .brand-info h1 {
@@ -360,6 +542,7 @@ import { RouterLink } from '@angular/router';
       }
 
       .header-actions {
+        order: 2;
         width: 100%;
         justify-content: center;
       }
@@ -392,6 +575,16 @@ import { RouterLink } from '@angular/router';
 
       .university-logo .material-icons {
         font-size: 24px;
+      }
+
+      .nav-link {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+      }
+
+      .dropdown-link {
+        padding: 8px 32px;
+        font-size: 0.85rem;
       }
     }
   `]
