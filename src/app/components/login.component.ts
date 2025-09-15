@@ -107,9 +107,8 @@ import { LayoutComponent } from './layout.component';
 
     .login-card {
       background: white;
-      border-radius: 20px;
-      padding: 40px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      padding: 32px;
       width: 100%;
       max-width: 450px;
       border: 1px solid #e5e7eb;

@@ -49,24 +49,19 @@ import { PostgraduateProgram } from '../interfaces/program.interface';
     .programs-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-      margin-top: 32px;
+      gap: 16px;
+      margin-top: 24px;
     }
     
     .program-card {
       background: white;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      border: 1px solid #f1f5f9;
-      transition: all 0.3s ease;
-      position: relative;
+      border-radius: 4px;
+      padding: 20px;
+      border: 1px solid #e5e7eb;
     }
     
     .program-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 25px rgba(139, 92, 246, 0.15);
-      border-color: #e2e8f0;
+      border: 1px solid #d1d5db;
     }
     
     .program-title-section {

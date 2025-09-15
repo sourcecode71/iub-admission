@@ -557,16 +557,9 @@ import { LayoutComponent } from './layout.component';
 
     .contact-card {
       background: white;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      border: 1px solid #f1f5f9;
-      transition: all 0.3s ease;
-    }
-
-    .contact-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+      border-radius: 4px;
+      padding: 20px;
+      border: 1px solid #e5e7eb;
     }
 
     .contact-card.general-info {

@@ -120,8 +120,8 @@ import { UndergraduateInfo } from '../interfaces/program.interface';
     .programs-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 24px;
-      margin-bottom: 60px;
+      gap: 16px;
+      margin-bottom: 40px;
     }
   `]
 })
