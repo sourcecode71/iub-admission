@@ -101,6 +101,17 @@ export interface AcademicInformation {
   foreignResult?: string;
   foreignCert1?: File | null;
   foreignCert2?: File | null;
+  examVenue?: string;
+  examVenueAddress?: string;
+  hasSat?: boolean;
+  satScore?: string;
+  hasIelts?: boolean;
+  ieltsScore?: string;
+  hasToefl?: boolean;
+  toeflScore?: string;
+  toeflType?: 'paper' | 'computer' | 'internet';
+  howDidYouKnowAboutIUB?: string;
+  certificationAccepted?: boolean;
 }
 
 export interface AdmissionData {

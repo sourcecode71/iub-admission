@@ -2,13 +2,16 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { LayoutComponent } from './layout.component';
 import { AcademicInformation } from '../interfaces/admission.interface';
 
 @Component({
   selector: 'app-academic-information',
   standalone: true,
-  imports: [CommonModule, FormsModule, LayoutComponent],
+  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, LayoutComponent],
   template: `
     <app-layout [showHeaderActions]="false">
       <div class="admission-container">
@@ -497,6 +500,115 @@ import { AcademicInformation } from '../interfaces/admission.interface';
                 </div>
               </div>
             </div>
+
+            <!-- Exam Venue and Test Scores -->
+            <div class="form-section">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Exam Venue *</label>
+                  <select [(ngModel)]="academicInfo.examVenue" name="examVenue" required class="form-input" (change)="onVenueChange()">
+                    <option value="">Select Exam Venue</option>
+                    <option *ngFor="let venue of examVenues" [value]="venue.city">{{ venue.city }}</option>
+                  </select>
+                </div>
+                <div class="form-group" *ngIf="academicInfo.examVenueAddress">
+                  <label class="form-label">Venue Address</label>
+                  <textarea [(ngModel)]="academicInfo.examVenueAddress" name="examVenueAddress" class="form-input" readonly rows="3"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Test Scores Section -->
+            <div class="form-section">
+              <h4 class="section-title">
+                <span class="material-icons">school</span>
+                SAT / IELTS or TOEFL (if available)
+              </h4>
+
+              <!-- SAT Section -->
+              <div class="test-score-row">
+                <div class="checkbox-group">
+                  <input type="checkbox" id="hasSat" [(ngModel)]="academicInfo.hasSat" name="hasSat" />
+                  <label for="hasSat" class="checkbox-label">SAT</label>
+                </div>
+                <div class="score-input-group" *ngIf="academicInfo.hasSat">
+                  <mat-form-field appearance="outline" class="material-form-field">
+                    <mat-label>Score *</mat-label>
+                    <input matInput type="number" [(ngModel)]="academicInfo.satScore" name="satScore" required min="0" max="1600" placeholder="Minimum SAT-1 Score 1000" />
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- IELTS/TOEFL Section -->
+              <div class="test-score-row">
+                <div class="ielts-toefl-group">
+                  <div class="checkbox-group">
+                    <input type="checkbox" id="hasIelts" [(ngModel)]="academicInfo.hasIelts" name="hasIelts" (change)="onIeltsChange()" />
+                    <label for="hasIelts" class="checkbox-label">IELTS</label>
+                  </div>
+                  <span class="or-text">OR</span>
+                  <div class="checkbox-group">
+                    <input type="checkbox" id="hasToefl" [(ngModel)]="academicInfo.hasToefl" name="hasToefl" (change)="onToeflChange()" />
+                    <label for="hasToefl" class="checkbox-label">TOEFL</label>
+                  </div>
+                </div>
+                <div class="score-input-group" *ngIf="academicInfo.hasIelts">
+                  <mat-form-field appearance="outline" class="material-form-field">
+                    <mat-label>Score *</mat-label>
+                    <input matInput type="number" [(ngModel)]="academicInfo.ieltsScore" name="ieltsScore" required step="0.5" min="0" max="9" placeholder="Minimum IELTS Score 5.5" />
+                  </mat-form-field>
+                </div>
+                <div class="score-input-group" *ngIf="academicInfo.hasToefl">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <mat-form-field appearance="outline" class="material-form-field">
+                        <mat-label>Type *</mat-label>
+                        <mat-select [(ngModel)]="academicInfo.toeflType" name="toeflType" required>
+                          <mat-option value="paper">Paper Based</mat-option>
+                          <mat-option value="computer">Computer Based</mat-option>
+                          <mat-option value="internet">Internet Based</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="form-group">
+                      <mat-form-field appearance="outline" class="material-form-field">
+                        <mat-label>Score *</mat-label>
+                        <input matInput type="number" [(ngModel)]="academicInfo.toeflScore" name="toeflScore" required min="0" [max]="getMaxToeflScore()" [placeholder]="getToeflPlaceholder()" />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- How did you know about IUB -->
+            <div class="form-section">
+              <div class="form-group">
+                <label class="form-label">How did you come to know about IUB ? *</label>
+                <select [(ngModel)]="academicInfo.howDidYouKnowAboutIUB" name="howDidYouKnowAboutIUB" required class="form-input">
+                  <option value="">Select</option>
+                  <option value="Website">Website</option>
+                  <option value="Social Media">Social Media</option>
+                  <option value="Friends/Family">Friends/Family</option>
+                  <option value="Advertisement">Advertisement</option>
+                  <option value="School/College">School/College</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Certification -->
+            <div class="form-section">
+              <div class="form-group">
+                <div class="checkbox-group">
+                  <input type="checkbox" id="certification" [(ngModel)]="academicInfo.certificationAccepted" name="certificationAccepted" required />
+                  <label for="certification" class="checkbox-label">
+                    I certify that all the above mentioned information in the form is correct. In case of any fraudulent data Independent University, Bangladesh (IUB) reserves the right to cancel the admission at any time.
+                  </label>
+                </div>
+              </div>
+            </div>
+
             <!-- Navigation Buttons -->
             <div class="form-navigation">
               <button type="button" class="nav-button secondary" (click)="onPrevious()">
@@ -1034,6 +1146,135 @@ import { AcademicInformation } from '../interfaces/admission.interface';
         gap: 16px;
       }
     }
+
+    /* Checkbox styles */
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #d1d5db;
+      border-radius: 4px;
+      appearance: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      background: white;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .checkbox-group input[type="checkbox"]:checked {
+      border-color: #8b5cf6;
+      background: #8b5cf6;
+    }
+
+    .checkbox-group input[type="checkbox"]:checked::before {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .checkbox-group input[type="checkbox"]:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+    }
+
+    .checkbox-label {
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 0;
+    }
+
+    .checkbox-group input[type="checkbox"]:checked + .checkbox-label {
+      color: #8b5cf6;
+      font-weight: 600;
+    }
+
+    /* Test score section styles */
+    .test-score-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 24px;
+      padding: 16px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .test-score-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .ielts-toefl-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 200px;
+    }
+
+    .or-text {
+      font-weight: 600;
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+
+    .score-input-group {
+      flex: 1;
+    }
+
+    .score-input-group .form-row {
+      margin-top: 0;
+    }
+
+    .score-input-group .form-group {
+      margin-bottom: 0;
+    }
+
+    /* Material Design form field styles */
+    .material-form-field {
+      width: 100%;
+    }
+
+    .material-form-field .mat-mdc-form-field {
+      width: 100%;
+    }
+
+    .material-form-field .mat-mdc-text-field-wrapper {
+      background: transparent !important;
+    }
+
+    .material-form-field .mdc-notched-outline__leading,
+    .material-form-field .mdc-notched-outline__notch,
+    .material-form-field .mdc-notched-outline__trailing {
+      border-color: #d1d5db !important;
+      border-width: 1px !important;
+    }
+
+    .material-form-field .mdc-notched-outline--notched .mdc-notched-outline__notch {
+      border-top: none !important;
+    }
+
+    .material-form-field.mat-focused .mdc-notched-outline__leading,
+    .material-form-field.mat-focused .mdc-notched-outline__notch,
+    .material-form-field.mat-focused .mdc-notched-outline__trailing {
+      border-color: #8b5cf6 !important;
+      border-width: 2px !important;
+    }
   `]
 })
 export class AcademicInformationComponent implements OnInit {
@@ -1044,6 +1285,14 @@ export class AcademicInformationComponent implements OnInit {
 
   majors = [
     'BBA', 'Economics', 'Computer Science', 'Electrical Engineering', 'Environmental Science', 'Media & Communication', 'English', 'Law', 'Biochemistry', 'Microbiology', 'Pharmacy', 'Mathematics', 'Physics', 'Other'
+  ];
+
+  examVenues = [
+    { city: 'Dhaka', address: 'Independent University, Bangladesh, Plot 16, Block B, Aftabuddin Ahmed Road, Bashundhara, Dhaka 1229' },
+    { city: 'Chittagong', address: 'Independent University, Bangladesh - Chittagong Campus, 232/1 CDA Avenue, Nasirabad, Chittagong 4000' },
+    { city: 'Khulna', address: 'Independent University, Bangladesh - Khulna Campus, 12-13 Khan Jahan Ali Road, Khulna 9100' },
+    { city: 'Sylhet', address: 'Independent University, Bangladesh - Sylhet Campus, 15 Zindabazar, Sylhet 3100' },
+    { city: 'Rajshahi', address: 'Independent University, Bangladesh - Rajshahi Campus, 12 Shaheed A.H.M. Qamaruzzaman Road, Rajshahi 6200' }
   ];
 
   private _degree10: string = 'SSC';
@@ -1122,7 +1371,18 @@ export class AcademicInformationComponent implements OnInit {
     foreignYear: '',
     foreignResult: '',
     foreignCert1: null,
-    foreignCert2: null
+    foreignCert2: null,
+    examVenue: '',
+    examVenueAddress: '',
+    hasSat: false,
+    satScore: '',
+    hasIelts: false,
+    ieltsScore: '',
+    hasToefl: false,
+    toeflScore: '',
+    toeflType: undefined,
+    howDidYouKnowAboutIUB: '',
+    certificationAccepted: false
   };
 
   ngOnInit() {
@@ -1164,6 +1424,12 @@ export class AcademicInformationComponent implements OnInit {
     // Set Yes as default for result published if not specified
     if (!this.academicInfo.resultPublished12) {
       this.academicInfo.resultPublished12 = 'Yes';
+      this.emitDataChange();
+    }
+
+    // Set defaults for new fields
+    if (!this.academicInfo.certificationAccepted) {
+      this.academicInfo.certificationAccepted = false;
       this.emitDataChange();
     }
   }
@@ -1228,8 +1494,70 @@ export class AcademicInformationComponent implements OnInit {
     this.dataChange.emit(this.academicInfo);
   }
 
+  getMaxToeflScore(): number {
+    switch (this.academicInfo.toeflType) {
+      case 'paper': return 677;
+      case 'computer': return 300;
+      case 'internet': return 120;
+      default: return 120;
+    }
+  }
+
+  getToeflPlaceholder(): string {
+    switch (this.academicInfo.toeflType) {
+      case 'paper': return 'Minimum 550 Paper based';
+      case 'computer': return 'Minimum 213 Computer based';
+      case 'internet': return 'Minimum 80 Internet based';
+      default: return 'Enter TOEFL Score';
+    }
+  }
+
+  onVenueChange() {
+    const selectedVenue = this.examVenues.find(v => v.city === this.academicInfo.examVenue);
+    this.academicInfo.examVenueAddress = selectedVenue ? selectedVenue.address : '';
+    this.emitDataChange();
+  }
+
+  onIeltsChange() {
+    if (this.academicInfo.hasIelts) {
+      this.academicInfo.hasToefl = false;
+      this.academicInfo.toeflScore = '';
+      this.academicInfo.toeflType = undefined;
+    }
+    this.emitDataChange();
+  }
+
+  onToeflChange() {
+    if (this.academicInfo.hasToefl) {
+      this.academicInfo.hasIelts = false;
+      this.academicInfo.ieltsScore = '';
+    }
+    this.emitDataChange();
+  }
+
   isFormValid(): boolean {
-    if (!this.academicInfo.firstMajor || !this.academicInfo.secondMajor || !this.academicInfo.degree10 || !this.academicInfo.degree12) {
+    if (!this.academicInfo.firstMajor || !this.academicInfo.secondMajor || !this.academicInfo.degree10 || !this.academicInfo.degree12 ||
+        !this.academicInfo.examVenue || !this.academicInfo.howDidYouKnowAboutIUB || !this.academicInfo.certificationAccepted) {
+      return false;
+    }
+
+    // Must have SAT
+    if (!this.academicInfo.hasSat || !this.academicInfo.satScore) {
+      return false;
+    }
+
+    // Must have either IELTS or TOEFL
+    if (!this.academicInfo.hasIelts && !this.academicInfo.hasToefl) {
+      return false;
+    }
+
+    // Validate IELTS score if selected
+    if (this.academicInfo.hasIelts && !this.academicInfo.ieltsScore) {
+      return false;
+    }
+
+    // Validate TOEFL score and type if selected
+    if (this.academicInfo.hasToefl && (!this.academicInfo.toeflScore || !this.academicInfo.toeflType)) {
       return false;
     }
 
