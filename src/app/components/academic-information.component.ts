@@ -532,7 +532,7 @@ import { AcademicInformation } from '../interfaces/admission.interface';
                   <label for="hasSat" class="checkbox-label">SAT</label>
                 </div>
                 <div class="score-input-group" *ngIf="academicInfo.hasSat">
-                  <mat-form-field appearance="outline" class="material-form-field">
+                  <mat-form-field appearance="fill" class="material-form-field">
                     <mat-label>Score *</mat-label>
                     <input matInput type="number" [(ngModel)]="academicInfo.satScore" name="satScore" required min="0" max="1600" placeholder="Minimum SAT-1 Score 1000" />
                   </mat-form-field>
@@ -553,7 +553,7 @@ import { AcademicInformation } from '../interfaces/admission.interface';
                   </div>
                 </div>
                 <div class="score-input-group" *ngIf="academicInfo.hasIelts">
-                  <mat-form-field appearance="outline" class="material-form-field">
+                  <mat-form-field appearance="fill" class="material-form-field">
                     <mat-label>Score *</mat-label>
                     <input matInput type="number" [(ngModel)]="academicInfo.ieltsScore" name="ieltsScore" required step="0.5" min="0" max="9" placeholder="Minimum IELTS Score 5.5" />
                   </mat-form-field>
@@ -561,7 +561,7 @@ import { AcademicInformation } from '../interfaces/admission.interface';
                 <div class="score-input-group" *ngIf="academicInfo.hasToefl">
                   <div class="form-row">
                     <div class="form-group">
-                      <mat-form-field appearance="outline" class="material-form-field">
+                      <mat-form-field appearance="fill" class="material-form-field">
                         <mat-label>Type *</mat-label>
                         <mat-select [(ngModel)]="academicInfo.toeflType" name="toeflType" required>
                           <mat-option value="paper">Paper Based</mat-option>
@@ -571,7 +571,7 @@ import { AcademicInformation } from '../interfaces/admission.interface';
                       </mat-form-field>
                     </div>
                     <div class="form-group">
-                      <mat-form-field appearance="outline" class="material-form-field">
+                      <mat-form-field appearance="fill" class="material-form-field">
                         <mat-label>Score *</mat-label>
                         <input matInput type="number" [(ngModel)]="academicInfo.toeflScore" name="toeflScore" required min="0" [max]="getMaxToeflScore()" [placeholder]="getToeflPlaceholder()" />
                       </mat-form-field>
@@ -1248,6 +1248,7 @@ import { AcademicInformation } from '../interfaces/admission.interface';
     /* Material Design form field styles */
     .material-form-field {
       width: 100%;
+      margin-bottom: 24px;
     }
 
     .material-form-field .mat-mdc-form-field {
@@ -1255,25 +1256,81 @@ import { AcademicInformation } from '../interfaces/admission.interface';
     }
 
     .material-form-field .mat-mdc-text-field-wrapper {
-      background: transparent !important;
+      background: #f9fafb !important;
+      border-radius: 12px !important;
+      padding: 0 !important;
     }
 
-    .material-form-field .mdc-notched-outline__leading,
-    .material-form-field .mdc-notched-outline__notch,
-    .material-form-field .mdc-notched-outline__trailing {
-      border-color: #d1d5db !important;
-      border-width: 1px !important;
+    .material-form-field .mdc-text-field--filled .mdc-line-ripple {
+      display: none !important;
     }
 
-    .material-form-field .mdc-notched-outline--notched .mdc-notched-outline__notch {
-      border-top: none !important;
+    .material-form-field .mdc-text-field--filled .mdc-text-field__input {
+      padding: 14px 16px !important;
+      font-size: 1rem !important;
+      border-radius: 12px !important;
     }
 
-    .material-form-field.mat-focused .mdc-notched-outline__leading,
-    .material-form-field.mat-focused .mdc-notched-outline__notch,
-    .material-form-field.mat-focused .mdc-notched-outline__trailing {
+    .material-form-field .mdc-text-field--filled .mdc-floating-label {
+      color: #6b7280 !important;
+      font-weight: 600 !important;
+      font-size: 0.9rem !important;
+      top: 14px !important;
+      left: 16px !important;
+      transform-origin: left top !important;
+    }
+
+    .material-form-field.mat-focused .mdc-text-field--filled .mdc-floating-label {
+      color: #8b5cf6 !important;
+      transform: translateY(-8px) scale(0.75) !important;
+    }
+
+    .material-form-field .mdc-text-field--filled:not(.mdc-text-field--focused) .mdc-floating-label {
+      transform: translateY(0) scale(1) !important;
+    }
+
+    .material-form-field .mdc-text-field--filled .mdc-text-field__input:focus {
       border-color: #8b5cf6 !important;
-      border-width: 2px !important;
+    }
+
+    .material-form-field .mat-mdc-select-value,
+    .material-form-field .mat-mdc-select-placeholder {
+      padding: 14px 16px !important;
+      font-size: 1rem !important;
+    }
+
+    .material-form-field .mdc-select__anchor {
+      background: #f9fafb !important;
+      border-radius: 12px !important;
+      border: 2px solid #e5e7eb !important;
+      padding: 0 !important;
+    }
+
+    .material-form-field .mdc-select--focused .mdc-select__anchor {
+      border-color: #8b5cf6 !important;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1) !important;
+    }
+
+    .material-form-field .mat-mdc-form-field-required-marker {
+      color: #ef4444;
+    }
+
+    /* Hide the floating label when not focused and no value */
+    .material-form-field:not(.mat-focused):not(.mat-form-field-invalid) .mdc-floating-label {
+      display: none !important;
+    }
+
+    /* Error styling only on invalid */
+    .material-form-field.mat-form-field-invalid .mdc-text-field--filled .mdc-text-field__input {
+      border-color: #ef4444 !important;
+    }
+
+    .material-form-field.mat-form-field-invalid .mdc-floating-label {
+      color: #ef4444 !important;
+    }
+
+    .material-form-field.mat-form-field-invalid .mdc-select__anchor {
+      border-color: #ef4444 !important;
     }
   `]
 })
