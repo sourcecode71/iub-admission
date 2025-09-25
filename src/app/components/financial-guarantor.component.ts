@@ -1,14 +1,13 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { FinancialGuarantor } from '../interfaces/admission.interface';
 
 @Component({
   selector: 'app-financial-guarantor',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, LayoutComponent],
+  imports: [CommonModule, FormsModule, LayoutComponent],
   template: `
     <app-layout [showHeaderActions]="false">
       <div class="admission-container">

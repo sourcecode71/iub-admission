@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -8,7 +8,7 @@ import { AcademicInformation } from '../interfaces/admission.interface';
 @Component({
   selector: 'app-academic-information',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, LayoutComponent],
+  imports: [CommonModule, FormsModule, LayoutComponent],
   template: `
     <app-layout [showHeaderActions]="false">
       <div class="admission-container">
@@ -18,6 +18,7 @@ import { AcademicInformation } from '../interfaces/admission.interface';
             <div class="university-logo">
               <img src="assets/iub_logo.png" alt="IUB Logo" class="logo-image">
             </div>
+            <!-- Progress Bar ...existing code... -->
             <h1 class="admission-title">Admission Form</h1>
             <p class="admission-subtitle">Step 3: Academic Information</p>
             
@@ -42,220 +43,460 @@ import { AcademicInformation } from '../interfaces/admission.interface';
 
           <!-- Academic Information Form -->
           <form class="admission-form" (ngSubmit)="onSubmit()">
-            <!-- SSC Information -->
+            <!-- Major Selection -->
             <div class="form-section">
-              <h3 class="section-title">
-                <span class="material-icons">school</span>
-                SSC/O-Level Information
-              </h3>
-              
               <div class="form-row">
                 <div class="form-group">
-                  <label for="sscExamName" class="form-label">Examination Name *</label>
-                  <input
-                    type="text"
-                    id="sscExamName"
-                    name="sscExamName"
-                    [(ngModel)]="academicInfo.ssc!.examName"
-                    class="form-input"
-                    placeholder="e.g., SSC, O-Level"
-                    required
-                  />
+                  <label class="form-label">Choose first major *</label>
+                  <select [(ngModel)]="academicInfo.firstMajor" name="firstMajor" required class="form-input">
+                    <option value="">Select First Major</option>
+                    <option *ngFor="let major of majors" [value]="major">{{ major }}</option>
+                  </select>
                 </div>
-                
                 <div class="form-group">
-                  <label for="sscBoard" class="form-label">Board/Institution *</label>
-                  <input
-                    type="text"
-                    id="sscBoard"
-                    name="sscBoard"
-                    [(ngModel)]="academicInfo.ssc!.board"
-                    class="form-input"
-                    placeholder="e.g., Dhaka, Cambridge"
-                    required
-                  />
+                  <label class="form-label">Choose second major *</label>
+                  <select [(ngModel)]="academicInfo.secondMajor" name="secondMajor" required class="form-input">
+                    <option value="">Select Second Major</option>
+                    <option *ngFor="let major of majors" [value]="major">{{ major }}</option>
+                  </select>
                 </div>
               </div>
-              
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="sscRoll" class="form-label">Roll No. *</label>
-                  <input
-                    type="text"
-                    id="sscRoll"
-                    name="sscRoll"
-                    [(ngModel)]="academicInfo.ssc!.roll"
-                    class="form-input"
-                    placeholder="Enter roll number"
-                    required
-                  />
-                </div>
-                
-                <div class="form-group">
-                  <label for="sscRegistration" class="form-label">Registration No. *</label>
-                  <input
-                    type="text"
-                    id="sscRegistration"
-                    name="sscRegistration"
-                    [(ngModel)]="academicInfo.ssc!.registration"
-                    class="form-input"
-                    placeholder="Enter registration number"
-                    required
-                  />
+            </div>
+
+            <!-- 12 Years Degree Selection -->
+            <div class="form-section">
+              <div class="form-group">
+                <label class="form-label">What's your 12 years degree? *</label>
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input type="radio" id="hsc" name="degree12" value="HSC" [(ngModel)]="academicInfo.degree12" required>
+                    <label for="hsc" class="radio-label">HSC</label>
+                  </div>
+                  <div class="radio-option">
+                    <input type="radio" id="alevel" name="degree12" value="A Level" [(ngModel)]="academicInfo.degree12" required>
+                    <label for="alevel" class="radio-label">A Level</label>
+                  </div>
+                  <div class="radio-option">
+                    <input type="radio" id="foreign" name="degree12" value="Foreign Board/IB" [(ngModel)]="academicInfo.degree12" required>
+                    <label for="foreign" class="radio-label">Foreign Board/IB</label>
+                  </div>
                 </div>
               </div>
-              
+            </div>
+
+            <!-- HSC Fields -->
+            <div class="form-section" *ngIf="academicInfo.degree12 === 'HSC'">
               <div class="form-row">
                 <div class="form-group">
-                  <label for="sscPassingYear" class="form-label">Passing Year *</label>
-                  <input
-                    type="text"
-                    id="sscPassingYear"
-                    name="sscPassingYear"
-                    [(ngModel)]="academicInfo.ssc!.passingYear"
-                    class="form-input"
-                    placeholder="e.g., 2020"
-                    required
-                  />
+                  <label class="form-label">Academic Board *</label>
+                  <input type="text" [(ngModel)]="academicInfo.board12" name="board12" required class="form-input" />
                 </div>
-                
                 <div class="form-group">
-                  <label for="sscResult" class="form-label">Result *</label>
-                  <select
-                    id="sscResult"
-                    name="sscResult"
-                    [(ngModel)]="academicInfo.ssc!.result"
-                    class="form-input"
-                    required
-                  >
-                    <option value="">Select Result</option>
-                    <option value="passed">Passed</option>
-                    <option value="awaited">Awaited</option>
+                  <label class="form-label">Passing Year *</label>
+                  <input type="number" [(ngModel)]="academicInfo.passingYear12" name="passingYear12" required class="form-input" min="2000" max="2025" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Group *</label>
+                  <select [(ngModel)]="academicInfo.group12" name="group12" required class="form-input">
+                    <option value="">Select Group</option>
+                    <option value="Science">Science</option>
+                    <option value="Arts">Arts</option>
+                    <option value="Commerce">Commerce</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Version *</label>
+                  <select [(ngModel)]="academicInfo.version12" name="version12" required class="form-input">
+                    <option value="">Select</option>
+                    <option value="Bangla">Bangla</option>
+                    <option value="English">English</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Result published? *</label>
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input type="radio" id="resultYes" name="resultPublished12" value="Yes" [(ngModel)]="academicInfo.resultPublished12" required>
+                    <label for="resultYes" class="radio-label">Yes</label>
+                  </div>
+                  <div class="radio-option">
+                    <input type="radio" id="resultNo" name="resultPublished12" value="No" [(ngModel)]="academicInfo.resultPublished12" required>
+                    <label for="resultNo" class="radio-label">No</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Name of the Institution *</label>
+                <input type="text" [(ngModel)]="academicInfo.institution12" name="institution12" required class="form-input" />
+              </div>
+              <div *ngIf="academicInfo.resultPublished12 !== 'No'">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Roll No *</label>
+                    <input type="text" [(ngModel)]="academicInfo.roll12" name="roll12" required class="form-input" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Registration No *</label>
+                    <input type="text" [(ngModel)]="academicInfo.reg12" name="reg12" required class="form-input" />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">GPA With 4th Subject *</label>
+                    <input type="number" [(ngModel)]="academicInfo.gpaWith4th12" name="gpaWith4th12" required class="form-input" step="0.01" min="0" max="5" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">GPA Without 4th Subject *</label>
+                    <input type="number" [(ngModel)]="academicInfo.gpaWithout4th12" name="gpaWithout4th12" required class="form-input" step="0.01" min="0" max="5" />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">HSC Transcript</label>
+                    <input type="file" (change)="onFileChange($event, 'hscTranscript')" class="form-input" accept=".pdf,.jpg,.jpeg,.png" />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">HSC Registration Card</label>
+                    <input type="file" (change)="onFileChange($event, 'hscRegCard')" class="form-input" accept=".pdf,.jpg,.jpeg,.png" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- A Level Fields -->
+            <div class="form-section" *ngIf="academicInfo.degree12 === 'A Level'">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Institution Name *</label>
+                  <input type="text" [(ngModel)]="academicInfo.aLevelInstitution" name="aLevelInstitution" required class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Exam Board *</label>
+                  <select [(ngModel)]="academicInfo.aLevelBoard" name="aLevelBoard" required class="form-input">
+                    <option value="">Select Board</option>
+                    <option value="Cambridge">Cambridge</option>
+                    <option value="Edexcel">Edexcel</option>
+                    <option value="AQA">AQA</option>
+                    <option value="Other">Other</option>
                   </select>
                 </div>
               </div>
               
-              <div class="form-group">
-                <label for="sscGpa" class="form-label">GPA/Grade *</label>
-                <input
-                  type="text"
-                  id="sscGpa"
-                  name="sscGpa"
-                  [(ngModel)]="academicInfo.ssc!.gpa"
-                  class="form-input"
-                  placeholder="e.g., 5.00, A*"
-                  required
-                />
+              <div class="subjects-section">
+                <h4 class="section-title">
+                  <span class="material-icons">school</span>
+                  A-Level Subjects
+                </h4>
+                <div *ngFor="let subject of academicInfo.aLevelSubjects; let i = index" class="subject-row">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label">Subject *</label>
+                      <input type="text" [(ngModel)]="subject.name" name="aLevelSubject{{i}}" required class="form-input" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Year *</label>
+                      <input type="number" [(ngModel)]="subject.year" name="aLevelYear{{i}}" required class="form-input" min="2000" max="2025" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Month *</label>
+                      <select [(ngModel)]="subject.month" name="aLevelMonth{{i}}" required class="form-input">
+                        <option value="">Select</option>
+                        <option value="January">January</option>
+                        <option value="May/June">May/June</option>
+                        <option value="October/November">October/November</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Grade *</label>
+                      <select [(ngModel)]="subject.grade" name="aLevelGrade{{i}}" required class="form-input">
+                        <option value="">Select</option>
+                        <option value="A*">A*</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                      </select>
+                    </div>
+                    <button type="button" class="remove-button" (click)="removeALevelSubject(i)" [disabled]="(academicInfo.aLevelSubjects || []).length <= 2">
+                      <span class="material-icons">remove_circle</span>
+                    </button>
+                  </div>
+                </div>
+                <button type="button" class="add-button" (click)="addALevelSubject()">
+                  <span class="material-icons">add_circle</span>
+                  Add Another Subject
+                </button>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">A-Level Certificate 1</label>
+                  <input type="file" (change)="onFileChange($event, 'aLevelCert1')" class="form-input" accept=".pdf,.jpg,.jpeg,.png" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">A-Level Certificate 2</label>
+                  <input type="file" (change)="onFileChange($event, 'aLevelCert2')" class="form-input" accept=".pdf,.jpg,.jpeg,.png" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">A-Level Certificate 3</label>
+                  <input type="file" (change)="onFileChange($event, 'aLevelCert3')" class="form-input" accept=".pdf,.jpg,.jpeg,.png" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">A-Level Certificate 4</label>
+                  <input type="file" (change)="onFileChange($event, 'aLevelCert4')" class="form-input" accept=".pdf,.jpg,.jpeg,.png" />
+                </div>
               </div>
             </div>
-            
-            <!-- HSC Information -->
+
+            <!-- Foreign Board/IB Fields -->
+            <div class="form-section" *ngIf="academicInfo.degree12 === 'Foreign Board/IB'">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Name of the Institution *</label>
+                  <input type="text" [(ngModel)]="academicInfo.foreignInstitution" name="foreignInstitution" required class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Degree Name *</label>
+                  <input type="text" [(ngModel)]="academicInfo.foreignDegreeName" name="foreignDegreeName" required class="form-input" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Year *</label>
+                  <input type="number" [(ngModel)]="academicInfo.foreignYear" name="foreignYear" required class="form-input" min="2000" max="2025" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Result *</label>
+                  <input type="text" [(ngModel)]="academicInfo.foreignResult" name="foreignResult" required class="form-input" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Certificate/Mark Sheet 1</label>
+                  <input type="file" (change)="onFileChange($event, 'foreignCert1')" class="form-input" accept=".pdf,.jpg,.jpeg,.png" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Certificate/Mark Sheet 2</label>
+                  <input type="file" (change)="onFileChange($event, 'foreignCert2')" class="form-input" accept=".pdf,.jpg,.jpeg,.png" />
+                </div>
+              </div>
+            </div>
+
+            <!-- 10 Years Degree Selection -->
             <div class="form-section">
-              <h3 class="section-title">
-                <span class="material-icons">school</span>
-                HSC/A-Level Information
-              </h3>
-              
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="hscExamName" class="form-label">Examination Name *</label>
-                  <input
-                    type="text"
-                    id="hscExamName"
-                    name="hscExamName"
-                    [(ngModel)]="academicInfo.hsc!.examName"
-                    class="form-input"
-                    placeholder="e.g., HSC, A-Level"
-                    required
-                  />
-                </div>
-                
-                <div class="form-group">
-                  <label for="hscBoard" class="form-label">Board/Institution *</label>
-                  <input
-                    type="text"
-                    id="hscBoard"
-                    name="hscBoard"
-                    [(ngModel)]="academicInfo.hsc!.board"
-                    class="form-input"
-                    placeholder="e.g., Dhaka, Cambridge"
-                    required
-                  />
+              <div class="form-group">
+                <label class="form-label">What's your 10 years degree? *</label>
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input type="radio" id="ssc" name="degree10" value="SSC" [(ngModel)]="degree10" required>
+                    <label for="ssc" class="radio-label">SSC</label>
+                  </div>
+                  <div class="radio-option">
+                    <input type="radio" id="olevel" name="degree10" value="O-level" [(ngModel)]="degree10" required>
+                    <label for="olevel" class="radio-label">O-level</label>
+                  </div>
+                  <div class="radio-option">
+                    <input type="radio" id="foreign10" name="degree10" value="Foreign Board/IB" [(ngModel)]="degree10" required>
+                    <label for="foreign10" class="radio-label">Foreign Board/IB</label>
+                  </div>
                 </div>
               </div>
-              
+            </div>
+
+            <!-- SSC Fields -->
+            <div class="form-section" *ngIf="academicInfo.degree10 === 'SSC'">
               <div class="form-row">
                 <div class="form-group">
-                  <label for="hscRoll" class="form-label">Roll No. *</label>
-                  <input
-                    type="text"
-                    id="hscRoll"
-                    name="hscRoll"
-                    [(ngModel)]="academicInfo.hsc!.roll"
-                    class="form-input"
-                    placeholder="Enter roll number"
-                    required
-                  />
+                  <label class="form-label">Academic Board *</label>
+                  <input type="text" [(ngModel)]="academicInfo.board10" name="board10" required class="form-input" />
                 </div>
-                
                 <div class="form-group">
-                  <label for="hscRegistration" class="form-label">Registration No. *</label>
-                  <input
-                    type="text"
-                    id="hscRegistration"
-                    name="hscRegistration"
-                    [(ngModel)]="academicInfo.hsc!.registration"
-                    class="form-input"
-                    placeholder="Enter registration number"
-                    required
-                  />
+                  <label class="form-label">Passing Year *</label>
+                  <input type="number" [(ngModel)]="academicInfo.passingYear10" name="passingYear10" required class="form-input" min="2000" max="2025" />
                 </div>
               </div>
-              
               <div class="form-row">
                 <div class="form-group">
-                  <label for="hscPassingYear" class="form-label">Passing Year *</label>
-                  <input
-                    type="text"
-                    id="hscPassingYear"
-                    name="hscPassingYear"
-                    [(ngModel)]="academicInfo.hsc!.passingYear"
-                    class="form-input"
-                    placeholder="e.g., 2022"
-                    required
-                  />
+                  <label class="form-label">Group *</label>
+                  <select [(ngModel)]="academicInfo.group10" name="group10" required class="form-input">
+                    <option value="">Select Group</option>
+                    <option value="Science">Science</option>
+                    <option value="Arts">Arts</option>
+                    <option value="Commerce">Commerce</option>
+                  </select>
                 </div>
-                
                 <div class="form-group">
-                  <label for="hscResult" class="form-label">Result *</label>
-                  <select
-                    id="hscResult"
-                    name="hscResult"
-                    [(ngModel)]="academicInfo.hsc!.result"
-                    class="form-input"
-                    required
-                  >
-                    <option value="">Select Result</option>
-                    <option value="passed">Passed</option>
-                    <option value="awaited">Awaited</option>
+                  <label class="form-label">Version *</label>
+                  <select [(ngModel)]="academicInfo.version10" name="version10" required class="form-input">
+                    <option value="">Select</option>
+                    <option value="Bangla">Bangla</option>
+                    <option value="English">English</option>
                   </select>
                 </div>
               </div>
-              
               <div class="form-group">
-                <label for="hscGpa" class="form-label">GPA/Grade *</label>
-                <input
-                  type="text"
-                  id="hscGpa"
-                  name="hscGpa"
-                  [(ngModel)]="academicInfo.hsc!.gpa"
-                  class="form-input"
-                  placeholder="e.g., 5.00, A*"
-                  required
-                />
+                <label class="form-label">Name of the Institution *</label>
+                <input type="text" [(ngModel)]="academicInfo.institution10" name="institution10" required class="form-input" />
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Roll No *</label>
+                  <input type="text" [(ngModel)]="academicInfo.roll10" name="roll10" required class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Registration No *</label>
+                  <input type="text" [(ngModel)]="academicInfo.reg10" name="reg10" required class="form-input" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">GPA With 4th Subject *</label>
+                  <input type="number" [(ngModel)]="academicInfo.gpaWith4th10" name="gpaWith4th10" required class="form-input" step="0.01" min="0" max="5" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">GPA Without 4th Subject *</label>
+                  <input type="number" [(ngModel)]="academicInfo.gpaWithout4th10" name="gpaWithout4th10" required class="form-input" step="0.01" min="0" max="5" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">SSC Transcript</label>
+                  <input type="file" (change)="onFileChange($event, 'sscTranscript')" class="form-input" accept=".pdf,.jpg,.jpeg,.png" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">SSC Registration Card</label>
+                  <input type="file" (change)="onFileChange($event, 'sscRegCard')" class="form-input" accept=".pdf,.jpg,.jpeg,.png" />
+                </div>
               </div>
             </div>
-            
+
+            <!-- O Level Fields -->
+            <div class="form-section" *ngIf="academicInfo.degree10 === 'O-level'">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Institution Name *</label>
+                  <input type="text" [(ngModel)]="academicInfo.oLevelInstitution" name="oLevelInstitution" required class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Exam Board *</label>
+                  <select [(ngModel)]="academicInfo.oLevelBoard" name="oLevelBoard" required class="form-input">
+                    <option value="">Select Board</option>
+                    <option value="Cambridge">Cambridge</option>
+                    <option value="Edexcel">Edexcel</option>
+                    <option value="AQA">AQA</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="subjects-section">
+                <h4 class="section-title">
+                  <span class="material-icons">school</span>
+                  O-Level Subjects
+                </h4>
+                <div *ngFor="let subject of academicInfo.oLevelSubjects; let i = index" class="subject-row">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label">Subject *</label>
+                      <input type="text" [(ngModel)]="subject.name" name="oLevelSubject{{i}}" required class="form-input" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Year *</label>
+                      <input type="number" [(ngModel)]="subject.year" name="oLevelYear{{i}}" required class="form-input" min="2000" max="2025" />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Month *</label>
+                      <select [(ngModel)]="subject.month" name="oLevelMonth{{i}}" required class="form-input">
+                        <option value="">Select</option>
+                        <option value="January">January</option>
+                        <option value="May/June">May/June</option>
+                        <option value="October/November">October/November</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Grade *</label>
+                      <select [(ngModel)]="subject.grade" name="oLevelGrade{{i}}" required class="form-input">
+                        <option value="">Select</option>
+                        <option value="A*">A*</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                      </select>
+                    </div>
+                    <button type="button" class="remove-button" (click)="removeOLevelSubject(i)" [disabled]="(academicInfo.oLevelSubjects || []).length <= 5">
+                      <span class="material-icons">remove_circle</span>
+                    </button>
+                  </div>
+                </div>
+                <button type="button" class="add-button" (click)="addOLevelSubject()">
+                  <span class="material-icons">add_circle</span>
+                  Add Another Subject
+                </button>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">O-Level Certificate 1</label>
+                  <input type="file" (change)="onFileChange($event, 'oLevelCert1')" class="form-input" accept=".pdf,.jpg,.jpeg,.png" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">O-Level Certificate 2</label>
+                  <input type="file" (change)="onFileChange($event, 'oLevelCert2')" class="form-input" accept=".pdf,.jpg,.jpeg,.png" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">O-Level Certificate 3</label>
+                  <input type="file" (change)="onFileChange($event, 'oLevelCert3')" class="form-input" accept=".pdf,.jpg,.jpeg,.png" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">O-Level Certificate 4</label>
+                  <input type="file" (change)="onFileChange($event, 'oLevelCert4')" class="form-input" accept=".pdf,.jpg,.jpeg,.png" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Foreign Board/IB Fields for 10 years -->
+            <div class="form-section" *ngIf="academicInfo.degree10 === 'Foreign Board/IB'">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Name of the Institution *</label>
+                  <input type="text" [(ngModel)]="academicInfo.foreign10Institution" name="foreign10Institution" required class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Degree Name *</label>
+                  <input type="text" [(ngModel)]="academicInfo.foreign10DegreeName" name="foreign10DegreeName" required class="form-input" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Year *</label>
+                  <input type="number" [(ngModel)]="academicInfo.foreign10Year" name="foreign10Year" required class="form-input" min="2000" max="2025" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Result *</label>
+                  <input type="text" [(ngModel)]="academicInfo.foreign10Result" name="foreign10Result" required class="form-input" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Certificate/Mark Sheet 1</label>
+                  <input type="file" (change)="onFileChange($event, 'foreign10Cert1')" class="form-input" accept=".pdf,.jpg,.jpeg,.png" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Certificate/Mark Sheet 2</label>
+                  <input type="file" (change)="onFileChange($event, 'foreign10Cert2')" class="form-input" accept=".pdf,.jpg,.jpeg,.png" />
+                </div>
+              </div>
+            </div>
             <!-- Navigation Buttons -->
             <div class="form-navigation">
               <button type="button" class="nav-button secondary" (click)="onPrevious()">
@@ -577,45 +818,471 @@ import { AcademicInformation } from '../interfaces/admission.interface';
         padding-bottom: 24px;
       }
     }
+
+    /* New styles for improved form structure */
+    .subjects-section {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 24px 0;
+      border: 1px solid #e2e8f0;
+    }
+
+    .subject-row {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .subject-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .add-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 16px;
+      font-size: 0.95rem;
+    }
+
+    .add-button:hover {
+      background: #059669;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .remove-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 24px;
+      flex-shrink: 0;
+    }
+
+    .remove-button:hover:not(:disabled) {
+      background: #dc2626;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
+    .remove-button:disabled {
+      background: #d1d5db;
+      cursor: not-allowed;
+      transform: none;
+      color: #9ca3af;
+    }
+
+    .form-input[type="file"] {
+      padding: 12px 16px;
+      background: white;
+      border: 2px dashed #d1d5db;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .form-input[type="file"]:hover {
+      border-color: #8b5cf6;
+      background: #faf5ff;
+      border-style: solid;
+    }
+
+    .form-input:invalid {
+      border-color: #ef4444;
+      background: #fef2f2;
+    }
+
+    .form-input:valid:not(:placeholder-shown) {
+      border-color: #10b981;
+    }
+
+    /* Validation feedback */
+    .error-message {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .success-message {
+      color: #10b981;
+      font-size: 0.875rem;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Improved mobile responsiveness for new elements */
+    @media (max-width: 768px) {
+      .subjects-section {
+        padding: 16px;
+        margin: 16px 0;
+      }
+
+      .subject-row {
+        padding: 12px;
+      }
+
+      .remove-button {
+        width: 36px;
+        height: 36px;
+        margin-top: 16px;
+      }
+
+      .add-button {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Radio button styles */
+    .radio-group {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .radio-option input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #d1d5db;
+      border-radius: 50%;
+      appearance: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      background: white;
+    }
+
+    .radio-option input[type="radio"]:checked {
+      border-color: #8b5cf6;
+      background: #8b5cf6;
+    }
+
+    .radio-option input[type="radio"]:checked::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+    }
+
+    .radio-option input[type="radio"]:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+    }
+
+    .radio-label {
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .radio-option input[type="radio"]:checked + .radio-label {
+      color: #8b5cf6;
+      font-weight: 600;
+    }
+
+    @media (max-width: 480px) {
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .form-row .remove-button {
+        align-self: center;
+        margin-top: 12px;
+      }
+
+      .radio-group {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
   `]
 })
-export class AcademicInformationComponent {
-  @Input() academicData: AcademicInformation | null = null;
-  @Output() submit = new EventEmitter<AcademicInformation>();
-  @Output() previous = new EventEmitter<void>();
+export class AcademicInformationComponent implements OnInit {
+  @Input() academicData: AcademicInformation = {};
+  @Output() dataChange = new EventEmitter<AcademicInformation>();
+  @Output() previousStep = new EventEmitter<void>();
+  @Output() submitForm = new EventEmitter<AcademicInformation>();
+
+  majors = [
+    'BBA', 'Economics', 'Computer Science', 'Electrical Engineering', 'Environmental Science', 'Media & Communication', 'English', 'Law', 'Biochemistry', 'Microbiology', 'Pharmacy', 'Mathematics', 'Physics', 'Other'
+  ];
+
+  private _degree10: string = 'SSC';
+
+  get degree10(): string {
+    return this._degree10;
+  }
+
+  set degree10(value: string) {
+    if (this._degree10 !== value) {
+      this._degree10 = value;
+      this.academicInfo.degree10 = value;
+      if (value === 'O-level') {
+        this.initializeOLevelSubjects();
+      }
+      this.emitDataChange();
+    }
+  }
   
   academicInfo: AcademicInformation = {
-    ssc: {
-      examName: '',
-      board: '',
-      roll: '',
-      registration: '',
-      passingYear: '',
-      result: '',
-      gpa: ''
-    },
-    hsc: {
-      examName: '',
-      board: '',
-      roll: '',
-      registration: '',
-      passingYear: '',
-      result: '',
-      gpa: ''
-    }
+    firstMajor: '',
+    secondMajor: '',
+    degree10: 'SSC',
+    board10: '',
+    passingYear10: '',
+    group10: '',
+    version10: '',
+    institution10: '',
+    roll10: '',
+    reg10: '',
+    gpaWith4th10: '',
+    gpaWithout4th10: '',
+    sscTranscript: null,
+    sscRegCard: null,
+    oLevelInstitution: '',
+    oLevelBoard: '',
+    oLevelSubjects: [
+      { name: '', year: '', month: '', grade: '' },
+      { name: '', year: '', month: '', grade: '' }
+    ],
+    oLevelCert1: null,
+    oLevelCert2: null,
+    oLevelCert3: null,
+    oLevelCert4: null,
+    foreign10Institution: '',
+    foreign10DegreeName: '',
+    foreign10Year: '',
+    foreign10Result: '',
+    foreign10Cert1: null,
+    foreign10Cert2: null,
+    degree12: 'HSC',
+    board12: '',
+    passingYear12: '',
+    group12: '',
+    version12: '',
+    resultPublished12: '',
+    institution12: '',
+    roll12: '',
+    reg12: '',
+    gpaWith4th12: '',
+    gpaWithout4th12: '',
+    hscTranscript: null,
+    hscRegCard: null,
+    aLevelInstitution: '',
+    aLevelBoard: '',
+    aLevelSubjects: [
+      { name: '', year: '', month: '', grade: '' },
+      { name: '', year: '', month: '', grade: '' }
+    ],
+    aLevelCert1: null,
+    aLevelCert2: null,
+    aLevelCert3: null,
+    aLevelCert4: null,
+    foreignInstitution: '',
+    foreignDegreeName: '',
+    foreignYear: '',
+    foreignResult: '',
+    foreignCert1: null,
+    foreignCert2: null
   };
 
   ngOnInit() {
-    if (this.academicData) {
+    if (this.academicData && Object.keys(this.academicData).length > 0) {
       this.academicInfo = { ...this.academicData };
+      // Ensure A-Level subjects has at least two entries
+      if (!this.academicInfo.aLevelSubjects || this.academicInfo.aLevelSubjects.length === 0) {
+        this.academicInfo.aLevelSubjects = [
+          { name: '', year: '', month: '', grade: '' },
+          { name: '', year: '', month: '', grade: '' }
+        ];
+      } else if (this.academicInfo.aLevelSubjects.length === 1) {
+        this.academicInfo.aLevelSubjects.push({ name: '', year: '', month: '', grade: '' });
+      }
+      // Ensure O-Level subjects has at least two entries
+      if (!this.academicInfo.oLevelSubjects || this.academicInfo.oLevelSubjects.length === 0) {
+        this.academicInfo.oLevelSubjects = [
+          { name: '', year: '', month: '', grade: '' },
+          { name: '', year: '', month: '', grade: '' }
+        ];
+      } else if (this.academicInfo.oLevelSubjects.length === 1) {
+        this.academicInfo.oLevelSubjects.push({ name: '', year: '', month: '', grade: '' });
+      }
+    }
+
+    // Set SSC as default if no degree10 is specified
+    if (!this.academicInfo.degree10) {
+      this.degree10 = 'SSC';
+    } else {
+      this.degree10 = this.academicInfo.degree10;
+    }
+
+    // Set HSC as default if no degree12 is specified
+    if (!this.academicInfo.degree12) {
+      this.academicInfo.degree12 = 'HSC';
+      this.emitDataChange();
+    }
+
+    // Set Yes as default for result published if not specified
+    if (!this.academicInfo.resultPublished12) {
+      this.academicInfo.resultPublished12 = 'Yes';
+      this.emitDataChange();
     }
   }
 
+  addALevelSubject() {
+    if (!this.academicInfo.aLevelSubjects) {
+      this.academicInfo.aLevelSubjects = [];
+    }
+    this.academicInfo.aLevelSubjects.push({ name: '', year: '', month: '', grade: '' });
+    this.emitDataChange();
+  }
+
+  removeALevelSubject(index: number) {
+    if (this.academicInfo.aLevelSubjects && this.academicInfo.aLevelSubjects.length > 2) {
+      this.academicInfo.aLevelSubjects.splice(index, 1);
+      this.emitDataChange();
+    }
+  }
+
+  addOLevelSubject() {
+    if (!this.academicInfo.oLevelSubjects) {
+      this.academicInfo.oLevelSubjects = [];
+    }
+    this.academicInfo.oLevelSubjects.push({ name: '', year: '', month: '', grade: '' });
+    this.emitDataChange();
+  }
+
+  removeOLevelSubject(index: number) {
+    if (this.academicInfo.oLevelSubjects && this.academicInfo.oLevelSubjects.length > 5) {
+      this.academicInfo.oLevelSubjects.splice(index, 1);
+      this.emitDataChange();
+    }
+  }
+
+  private initializeOLevelSubjects() {
+    this.academicInfo.oLevelSubjects = [
+      { name: '', year: '', month: '', grade: '' },
+      { name: '', year: '', month: '', grade: '' },
+      { name: '', year: '', month: '', grade: '' },
+      { name: '', year: '', month: '', grade: '' },
+      { name: '', year: '', month: '', grade: '' }
+    ];
+  }
+
+  onFileChange(event: any, field: keyof AcademicInformation) {
+    const file = event.target.files[0] || null;
+    (this.academicInfo as any)[field] = file;
+    this.emitDataChange();
+  }
+
   onSubmit() {
-    this.submit.emit(this.academicInfo);
+    if (this.isFormValid()) {
+      this.submitForm.emit(this.academicInfo);
+    }
   }
 
   onPrevious() {
-    this.previous.emit();
+    this.previousStep.emit();
+  }
+
+  emitDataChange() {
+    this.dataChange.emit(this.academicInfo);
+  }
+
+  isFormValid(): boolean {
+    if (!this.academicInfo.firstMajor || !this.academicInfo.secondMajor || !this.academicInfo.degree10 || !this.academicInfo.degree12) {
+      return false;
+    }
+
+    // Validate 10 years degree
+    if (this.academicInfo.degree10 === 'SSC') {
+      if (!(this.academicInfo.board10 && this.academicInfo.passingYear10 &&
+            this.academicInfo.group10 && this.academicInfo.version10 &&
+            this.academicInfo.institution10 && this.academicInfo.roll10 &&
+            this.academicInfo.reg10 && this.academicInfo.gpaWith4th10 &&
+            this.academicInfo.gpaWithout4th10)) {
+        return false;
+      }
+    }
+
+    if (this.academicInfo.degree10 === 'O-level') {
+      if (!(this.academicInfo.oLevelInstitution && this.academicInfo.oLevelBoard &&
+            this.academicInfo.oLevelSubjects && this.academicInfo.oLevelSubjects.length >= 5)) {
+        return false;
+      }
+    }
+
+    if (this.academicInfo.degree10 === 'Foreign Board/IB') {
+      if (!(this.academicInfo.foreign10Institution && this.academicInfo.foreign10DegreeName &&
+            this.academicInfo.foreign10Year && this.academicInfo.foreign10Result)) {
+        return false;
+      }
+    }
+
+    // Validate 12 years degree
+    if (this.academicInfo.degree12 === 'HSC') {
+      if (this.academicInfo.resultPublished12 === 'No') {
+        return !!(this.academicInfo.board12 && this.academicInfo.passingYear12 &&
+                 this.academicInfo.group12 && this.academicInfo.version12 &&
+                 this.academicInfo.institution12);
+      } else {
+        return !!(this.academicInfo.board12 && this.academicInfo.passingYear12 &&
+                 this.academicInfo.group12 && this.academicInfo.version12 &&
+                 this.academicInfo.resultPublished12 && this.academicInfo.institution12 &&
+                 this.academicInfo.roll12 && this.academicInfo.reg12 &&
+                 this.academicInfo.gpaWith4th12 && this.academicInfo.gpaWithout4th12);
+      }
+    }
+
+    if (this.academicInfo.degree12 === 'A Level') {
+      return !!(this.academicInfo.aLevelInstitution && this.academicInfo.aLevelBoard &&
+               this.academicInfo.aLevelSubjects && this.academicInfo.aLevelSubjects.length > 0);
+    }
+
+    if (this.academicInfo.degree12 === 'Foreign Board/IB') {
+      return !!(this.academicInfo.foreignInstitution && this.academicInfo.foreignDegreeName &&
+               this.academicInfo.foreignYear && this.academicInfo.foreignResult);
+    }
+
+    return true;
   }
 }

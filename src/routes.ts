@@ -7,6 +7,8 @@ import { ForgotPasswordComponent } from './app/components/forgot-password.compon
 import { ContactComponent } from './app/components/contact.component';
 import { AdmissionFormComponent } from './app/components/admission-form.component';
 import { PersonalInformationComponent } from './app/components/personal-information.component';
+import { FinancialGuarantorComponent } from './app/components/financial-guarantor.component';
+import { AcademicInformationComponent } from './app/components/academic-information.component';
 
 export const routes: Routes = [
   {
@@ -19,6 +21,8 @@ export const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'basic-info', component: PersonalInformationComponent },
+  { path: 'financial-guarantor', component: FinancialGuarantorComponent },
+  { path: 'academic-info', component: AcademicInformationComponent },
   { path: '', redirectTo: '/', pathMatch: 'full' },
   { path: '**', redirectTo: '/' }
 ];

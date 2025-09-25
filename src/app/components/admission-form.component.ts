@@ -29,7 +29,6 @@ import { AdmissionData } from '../interfaces/admission.interface';
       <!-- Academic Information Step -->
       <app-academic-information
         *ngIf="currentStep === 3"
-        [academicData]="admissionData.academicInfo"
         (submit)="onAcademicInfoSubmit($event)"
         (previous)="goToStep(2)">
       </app-academic-information>
@@ -85,24 +84,28 @@ export class AdmissionFormComponent {
       address: ''
     },
     academicInfo: {
-      ssc: {
-        examName: '',
-        board: '',
-        roll: '',
-        registration: '',
-        passingYear: '',
-        result: '',
-        gpa: ''
-      },
-      hsc: {
-        examName: '',
-        board: '',
-        roll: '',
-        registration: '',
-        passingYear: '',
-        result: '',
-        gpa: ''
-      }
+      firstMajor: '',
+      secondMajor: '',
+      degree12: 'HSC',
+      board12: '',
+      passingYear12: '',
+      group12: '',
+      version12: '',
+      resultPublished12: '',
+      institution12: '',
+      roll12: '',
+      reg12: '',
+      gpaWith4th12: '',
+      gpaWithout4th12: '',
+      hscTranscript: null,
+      hscRegCard: null,
+      aLevelInstitution: '',
+      aLevelBoard: '',
+      aLevelSubjects: [],
+      aLevelCert1: null,
+      aLevelCert2: null,
+      aLevelCert3: null,
+      aLevelCert4: null
     }
   };
 
