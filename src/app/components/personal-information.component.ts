@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { PersonalInformation } from '../interfaces/admission.interface';
+import { ImageCropperComponent } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-personal-information',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, LayoutComponent],
+  imports: [CommonModule, FormsModule, RouterLink, LayoutComponent, ImageCropperComponent],
   template: `
     <app-layout [showHeaderActions]="false">
       <div class="admission-container">
@@ -48,7 +49,49 @@ import { PersonalInformation } from '../interfaces/admission.interface';
                 <span class="material-icons">person</span>
                 Basic Information
               </h3>
-              
+
+              <!-- Passport Size Photo -->
+              <div class="form-group">
+                <label class="form-label">Passport Size Photo *</label>
+                <div class="image-upload-container">
+                  <input
+                    type="file"
+                    id="passportImage"
+                    name="passportImage"
+                    accept="image/*"
+                    (change)="fileChangeEvent($event)"
+                    class="file-input"
+                  />
+                  <label for="passportImage" class="file-label">
+                    <span class="material-icons">cloud_upload</span>
+                    Choose Image
+                  </label>
+                  <div *ngIf="croppedImage" class="image-preview">
+                    <img [src]="croppedImage" alt="Cropped Image" class="preview-image" />
+                  </div>
+                </div>
+                <div *ngIf="showCropper" class="cropper-modal">
+                  <div class="cropper-content">
+                    <h4>Crop Your Image</h4>
+                    <image-cropper
+                      [imageChangedEvent]="imageChangedEvent"
+                      [maintainAspectRatio]="true"
+                      [aspectRatio]="1/1"
+                      [resizeToWidth]="200"
+                      [resizeToHeight]="200"
+                      format="png"
+                      (imageCropped)="imageCropped($event)"
+                      (imageLoaded)="imageLoaded()"
+                      (cropperReady)="cropperReady()"
+                      (loadImageFailed)="loadImageFailed()"
+                    ></image-cropper>
+                    <div class="cropper-actions">
+                      <button type="button" class="cropper-btn" (click)="showCropper = false">Done</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div class="form-group">
                 <label class="form-label">Were you ever admitted to IUB? *</label>
                 <div class="radio-group">
@@ -63,6 +106,19 @@ import { PersonalInformation } from '../interfaces/admission.interface';
                     <span class="radio-checkmark"></span>
                     Yes
                   </label>
+                  <div *ngIf="personalInfo.wasAdmittedBefore === true" class="inline-input">
+                    <label for="studentId" class="inline-label">Student Id *</label>
+                    <input
+                      type="text"
+                      id="studentId"
+                      name="studentId"
+                      [(ngModel)]="personalInfo.studentId"
+                      class="small-input"
+                      placeholder="Enter ID"
+                      required
+                      maxlength="7"
+                    />
+                  </div>
                   <label class="radio-option">
                     <input
                       type="radio"
@@ -74,18 +130,6 @@ import { PersonalInformation } from '../interfaces/admission.interface';
                     <span class="radio-checkmark"></span>
                     No
                   </label>
-                </div>
-                <div class="form-group" *ngIf="personalInfo.wasAdmittedBefore === true">
-                  <label for="studentId" class="form-label">Student Id</label>
-                  <input
-                    type="text"
-                    id="studentId"
-                    name="studentId"
-                    [(ngModel)]="personalInfo.studentId"
-                    class="form-input"
-                    placeholder="Enter your previous IUB Student Id"
-                    required
-                  />
                 </div>
               </div>
               
@@ -157,6 +201,18 @@ import { PersonalInformation } from '../interfaces/admission.interface';
                     <span class="radio-checkmark"></span>
                     National ID
                   </label>
+                  <div *ngIf="personalInfo.idType === 'nationalId'" class="inline-input">
+                    <label for="nationalId" class="inline-label">Number *</label>
+                    <input
+                      type="text"
+                      id="nationalId"
+                      name="nationalId"
+                      [(ngModel)]="personalInfo.nationalId"
+                      class="form-input"
+                      placeholder="Enter your National ID number"
+                      required
+                    />
+                  </div>
                   <label class="radio-option">
                     <input
                       type="radio"
@@ -168,33 +224,19 @@ import { PersonalInformation } from '../interfaces/admission.interface';
                     <span class="radio-checkmark"></span>
                     Birth Certificate
                   </label>
+                  <div *ngIf="personalInfo.idType === 'birthCertificate'" class="inline-input">
+                    <label for="birthCertificate" class="inline-label">Number *</label>
+                    <input
+                      type="text"
+                      id="birthCertificate"
+                      name="birthCertificate"
+                      [(ngModel)]="personalInfo.birthCertificate"
+                      class="form-input"
+                      placeholder="Enter your Birth Certificate number"
+                      required
+                    />
+                  </div>
                 </div>
-              </div>
-              
-              <div class="form-group" *ngIf="personalInfo.idType === 'nationalId'">
-                <label for="nationalId" class="form-label">National ID Number *</label>
-                <input
-                  type="text"
-                  id="nationalId"
-                  name="nationalId"
-                  [(ngModel)]="personalInfo.nationalId"
-                  class="form-input"
-                  placeholder="Enter your National ID number"
-                  required
-                />
-              </div>
-              
-              <div class="form-group" *ngIf="personalInfo.idType === 'birthCertificate'">
-                <label for="birthCertificate" class="form-label">Birth Certificate Number *</label>
-                <input
-                  type="text"
-                  id="birthCertificate"
-                  name="birthCertificate"
-                  [(ngModel)]="personalInfo.birthCertificate"
-                  class="form-input"
-                  placeholder="Enter your Birth Certificate number"
-                  required
-                />
               </div>
               
               <div class="form-row">
@@ -902,6 +944,167 @@ import { PersonalInformation } from '../interfaces/admission.interface';
       }
     }
 
+    .inline-input {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: 16px;
+    }
+
+    .inline-input .form-input {
+      flex: 1;
+      width: auto;
+    }
+
+    .inline-label {
+      font-weight: 600;
+      color: #374151;
+      font-size: 0.9rem;
+      margin-bottom: 0;
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+
+    .small-input {
+      width: 140px;
+      padding: 10px 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      background: #f9fafb;
+    }
+
+    .small-input:focus {
+      outline: none;
+      border-color: #8b5cf6;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .inline-input {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .inline-input .form-input {
+        width: 100%;
+      }
+
+      .small-input {
+        width: 120px;
+        padding: 8px 10px;
+      }
+    }
+
+    .image-upload-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .file-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: #f3f4f6;
+      border: 2px dashed #d1d5db;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .file-label:hover {
+      background: #e5e7eb;
+      border-color: #9ca3af;
+    }
+
+    .image-preview {
+      margin-top: 16px;
+    }
+
+    .preview-image {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 2px solid #e5e7eb;
+    }
+
+    .cropper-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .cropper-content {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .cropper-content h4 {
+      margin-bottom: 16px;
+      color: #374151;
+      font-weight: 600;
+    }
+
+    .cropper-actions {
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    .cropper-btn {
+      padding: 10px 20px;
+      background: #8b5cf6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .cropper-btn:hover {
+      background: #7c3aed;
+    }
+
+    @media (max-width: 768px) {
+      .image-upload-container {
+        align-items: center;
+      }
+
+      .preview-image {
+        width: 100px;
+        height: 100px;
+      }
+
+      .cropper-content {
+        padding: 16px;
+        max-width: 90%;
+      }
+    }
+
     @media (max-width: 480px) {
       .admission-card {
         padding: 24px 16px;
@@ -920,11 +1123,40 @@ import { PersonalInformation } from '../interfaces/admission.interface';
         flex-direction: column;
         gap: 16px;
       }
+
+      .inline-input {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .inline-input .form-input {
+        width: 100%;
+      }
+
+      .image-upload-container {
+        gap: 12px;
+      }
+
+      .file-label {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+      }
+
+      .preview-image {
+        width: 80px;
+        height: 80px;
+      }
     }
   `]
 })
 export class PersonalInformationComponent {
   @Output() next = new EventEmitter<PersonalInformation>();
+
+  // Image cropper properties
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  showCropper = false;
   
   // Districts and Thanas/Upazilas data for Bangladesh
   districts = [
@@ -1009,6 +1241,7 @@ export class PersonalInformationComponent {
   }
 
   personalInfo: PersonalInformation = {
+    passportImage: '',
     firstName: '',
     lastName: '',
     cellPhone: '',
@@ -1038,8 +1271,32 @@ export class PersonalInformationComponent {
       postOffice: ''
     },
     hasDisability: false,
-    wasAdmittedBefore: false
+    wasAdmittedBefore: false,
+    studentId: ''
   };
+
+  // Image cropper methods
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+    this.showCropper = true;
+  }
+
+  imageCropped(event: any) {
+    this.croppedImage = event.base64;
+    this.personalInfo.passportImage = this.croppedImage;
+  }
+
+  imageLoaded() {
+    // show cropper
+  }
+
+  cropperReady() {
+    // cropper ready
+  }
+
+  loadImageFailed() {
+    // show message
+  }
 
   onSubmit() {
     // If permanent address is same as present, copy the values
@@ -1049,7 +1306,7 @@ export class PersonalInformationComponent {
       this.personalInfo.permanentAddress.thana = this.personalInfo.presentAddress.thana;
       this.personalInfo.permanentAddress.postOffice = this.personalInfo.presentAddress.postOffice;
     }
-    
+
     this.next.emit(this.personalInfo);
   }
 }

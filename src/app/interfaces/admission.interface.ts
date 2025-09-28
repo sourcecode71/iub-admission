@@ -1,4 +1,5 @@
 export interface PersonalInformation {
+  passportImage?: string;
   firstName: string;
   lastName: string;
   cellPhone: string;
