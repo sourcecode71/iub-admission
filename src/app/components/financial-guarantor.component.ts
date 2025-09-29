@@ -48,19 +48,44 @@ import { FinancialGuarantor } from '../interfaces/admission.interface';
               </h3>
               
               <div class="form-group">
-                <label for="relationship" class="form-label">Relationship *</label>
-                <select
-                  id="relationship"
-                  name="relationship"
-                  [(ngModel)]="financialGuarantor.relationship"
-                  class="form-input"
-                  required
-                >
-                  <option value="">Select Relationship</option>
-                  <option value="father">Father</option>
-                  <option value="mother">Mother</option>
-                  <option value="other">Other</option>
-                </select>
+                <div class="relationship-row">
+                  <label class="form-label">Relationship *</label>
+                  <div class="radio-group inline">
+                    <label class="radio-option">
+                      <input
+                        type="radio"
+                        name="relationship"
+                        [(ngModel)]="financialGuarantor.relationship"
+                        value="father"
+                        required
+                      >
+                      <span class="radio-checkmark"></span>
+                      Father
+                    </label>
+                    <label class="radio-option">
+                      <input
+                        type="radio"
+                        name="relationship"
+                        [(ngModel)]="financialGuarantor.relationship"
+                        value="mother"
+                        required
+                      >
+                      <span class="radio-checkmark"></span>
+                      Mother
+                    </label>
+                    <label class="radio-option">
+                      <input
+                        type="radio"
+                        name="relationship"
+                        [(ngModel)]="financialGuarantor.relationship"
+                        value="other"
+                        required
+                      >
+                      <span class="radio-checkmark"></span>
+                      Other
+                    </label>
+                  </div>
+                </div>
               </div>
               
               <div class="form-row">
@@ -446,10 +471,27 @@ import { FinancialGuarantor } from '../interfaces/admission.interface';
       box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
     }
 
+    .relationship-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .relationship-row .form-label {
+      margin-bottom: 0;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
     .radio-group {
       display: flex;
       gap: 24px;
       flex-wrap: wrap;
+    }
+
+    .radio-group.inline {
+      flex-wrap: nowrap;
+      gap: 16px;
     }
 
     .radio-option {
@@ -601,6 +643,22 @@ import { FinancialGuarantor } from '../interfaces/admission.interface';
       .radio-group {
         flex-direction: column;
         gap: 16px;
+      }
+
+      .relationship-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .relationship-row .form-label {
+        margin-bottom: 8px;
+      }
+
+      .radio-group.inline {
+        flex-direction: row;
+        gap: 16px;
+        flex-wrap: wrap;
       }
     }
   `]

@@ -53,6 +53,9 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
               <!-- Passport Size Photo -->
               <div class="form-group photo-upload-group">
                 <label class="form-label">Passport Size Photo *</label>
+                <div class="photo-requirements">
+                  <small>Key criteria include: a recent photo (taken within the last month) sized 50x50mm (192×192 px), a light and plain background, a neutral expression, and an unobstructed, full-face view. Background color - White.</small>
+                </div>
                 <div class="image-upload-container">
                   <input
                     type="file"
@@ -73,13 +76,15 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
                 </div>
                 <div *ngIf="showCropper" class="cropper-modal">
                   <div class="cropper-content">
-                    <h4>Crop Your Image</h4>
+                    <div class="cropper-header">
+                      <h4>Passport size photograph</h4>
+                    </div>
                     <image-cropper
                       [imageChangedEvent]="imageChangedEvent"
                       [maintainAspectRatio]="true"
-                      [aspectRatio]="2/3"
-                      [resizeToWidth]="1062"
-                      [resizeToHeight]="1593"
+                      [aspectRatio]="1"
+                      [resizeToWidth]="192"
+                      [resizeToHeight]="192"
                       format="png"
                       (imageCropped)="imageCropped($event)"
                       (imageLoaded)="imageLoaded()"
@@ -1144,6 +1149,17 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
       }
     }
 
+    .photo-requirements {
+      margin-bottom: 8px;
+    }
+
+    .photo-requirements small {
+      color: #6b7280;
+      font-size: 0.75rem;
+      line-height: 1.4;
+      display: block;
+    }
+
     .image-upload-container {
       display: flex;
       align-items: center;
@@ -1209,11 +1225,18 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
       overflow-y: auto;
     }
 
+    .cropper-header {
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
     .cropper-content h4 {
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       color: #374151;
       font-weight: 600;
+      font-size: 1.25rem;
     }
+
 
     .cropper-actions {
       margin-top: 16px;
@@ -1247,6 +1270,19 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
       .cropper-content {
         padding: 16px;
         max-width: 90%;
+      }
+
+      .photo-instructions {
+        padding: 6px 8px;
+      }
+
+      .photo-instructions p {
+        font-size: 0.8rem;
+        margin: 0;
+      }
+
+      .cropper-content h4 {
+        font-size: 1.1rem;
       }
     }
 
