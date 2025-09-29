@@ -624,12 +624,8 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
             
             <!-- Navigation Buttons -->
             <div class="form-navigation">
-              <button type="button" class="nav-button secondary" routerLink="/register">
-                <span class="material-icons">arrow_back</span>
-                Previous
-              </button>
               <button type="submit" class="nav-button primary">
-                Next
+                Save & Next to Guarantor
                 <span class="material-icons">arrow_forward</span>
               </button>
             </div>
@@ -998,7 +994,7 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
     /* Navigation Buttons */
     .form-navigation {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       margin-top: 32px;
       padding-top: 32px;
       border-top: 1px solid #e5e7eb;

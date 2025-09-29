@@ -263,10 +263,10 @@ import { FinancialGuarantor } from '../interfaces/admission.interface';
             <div class="form-navigation">
               <button type="button" class="nav-button secondary" (click)="onPrevious()">
                 <span class="material-icons">arrow_back</span>
-                Previous
+                Back to Personal
               </button>
               <button type="submit" class="nav-button primary">
-                Next
+                Save & Next to Academic
                 <span class="material-icons">arrow_forward</span>
               </button>
             </div>
