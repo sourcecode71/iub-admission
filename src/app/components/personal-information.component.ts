@@ -21,7 +21,7 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
             </div>
             <h1 class="admission-title">Admission Form</h1>
             <p class="admission-subtitle">Step 1: Personal Information</p>
-            
+
             <!-- Progress Bar -->
             <div class="progress-bar">
               <div class="progress-step active">
@@ -51,7 +51,7 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
               </h3>
 
               <!-- Passport Size Photo -->
-              <div class="form-group">
+              <div class="form-group photo-upload-group">
                 <label class="form-label">Passport Size Photo *</label>
                 <div class="image-upload-container">
                   <input
@@ -66,8 +66,9 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
                     <span class="material-icons">cloud_upload</span>
                     Choose Image
                   </label>
-                  <div *ngIf="croppedImage" class="image-preview">
-                    <img [src]="croppedImage" alt="Cropped Image" class="preview-image" />
+                  <!-- Passport Photo Display -->
+                  <div class="passport-photo-display" *ngIf="croppedImage">
+                    <img [src]="croppedImage" alt="Passport Photo" class="passport-photo" />
                   </div>
                 </div>
                 <div *ngIf="showCropper" class="cropper-modal">
@@ -76,9 +77,9 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
                     <image-cropper
                       [imageChangedEvent]="imageChangedEvent"
                       [maintainAspectRatio]="true"
-                      [aspectRatio]="1/1"
-                      [resizeToWidth]="200"
-                      [resizeToHeight]="200"
+                      [aspectRatio]="2/3"
+                      [resizeToWidth]="1062"
+                      [resizeToHeight]="1593"
                       format="png"
                       (imageCropped)="imageCropped($event)"
                       (imageLoaded)="imageLoaded()"
@@ -605,6 +606,46 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
       border: 1px solid #e5e7eb;
     }
 
+    .passport-photo-display {
+      width: 150px;
+      height: 170px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 3px solid #8b5cf6;
+      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+      flex-shrink: 0;
+      position: relative;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      padding: 4px;
+    }
+
+    .passport-photo-display::before {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      bottom: -3px;
+      background: linear-gradient(135deg, #8b5cf6, #a855f7);
+      border-radius: 15px;
+      z-index: -1;
+    }
+
+    .passport-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 2px solid white;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .passport-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
     .admission-header {
       text-align: center;
       margin-bottom: 40px;
@@ -904,6 +945,19 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
     @media (max-width: 768px) {
       .admission-card {
         padding: 32px 24px;
+        max-width: 100%;
+      }
+
+      .image-upload-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .passport-photo-display {
+        width: 120px;
+        height: 136px;
+        margin: 16px auto 0;
       }
 
       .admission-title {
@@ -1001,9 +1055,9 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
 
     .image-upload-container {
       display: flex;
-      flex-direction: column;
       align-items: flex-start;
-      gap: 16px;
+      gap: 20px;
+      position: relative;
     }
 
     .file-input {
@@ -1035,7 +1089,7 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
 
     .preview-image {
       width: 120px;
-      height: 120px;
+      height: 180px;
       object-fit: cover;
       border-radius: 8px;
       border: 2px solid #e5e7eb;
@@ -1096,7 +1150,7 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
 
       .preview-image {
         width: 100px;
-        height: 100px;
+        height: 150px;
       }
 
       .cropper-content {
@@ -1108,6 +1162,12 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
     @media (max-width: 480px) {
       .admission-card {
         padding: 24px 16px;
+      }
+
+      .passport-photo-display {
+        width: 100px;
+        height: 113px;
+        margin: 12px auto 0;
       }
 
       .section-title {
@@ -1141,11 +1201,6 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
       .file-label {
         padding: 10px 14px;
         font-size: 0.9rem;
-      }
-
-      .preview-image {
-        width: 80px;
-        height: 80px;
       }
     }
   `]
@@ -1277,13 +1332,35 @@ export class PersonalInformationComponent {
 
   // Image cropper methods
   fileChangeEvent(event: any): void {
-    this.imageChangedEvent = event;
-    this.showCropper = true;
+
+
+    const file = event.target.files[0];
+    
+    console.log('Selected file:', file);
+
+    if (file) {
+      this.imageChangedEvent = event;
+      this.showCropper = true;
+    }
   }
 
   imageCropped(event: any) {
-    this.croppedImage = event.base64;
-    this.personalInfo.passportImage = this.croppedImage;
+    console.log('Cropped event:', event);
+
+    if (event.blob) {
+      // Convert blob to base64 data URL
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.croppedImage = reader.result as string;
+        this.personalInfo.passportImage = this.croppedImage;
+        console.log('Cropped Image set to:', this.croppedImage);
+      };
+      reader.readAsDataURL(event.blob);
+    } else {
+      this.croppedImage = event.objectUrl || event.base64;
+      this.personalInfo.passportImage = this.croppedImage;
+      console.log('Cropped Image set to:', this.croppedImage);
+    }
   }
 
   imageLoaded() {
