@@ -68,6 +68,12 @@ export class AdmissionFormComponent {
         postOffice: ''
       },
       hasDisability: false,
+      disabilities: {
+        hearing: false,
+        visual: false,
+        mobility: false,
+        other: false,
+      },
       wasAdmittedBefore: false
     },
     financialGuarantor: {

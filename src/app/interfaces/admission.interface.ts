@@ -29,6 +29,12 @@ export interface PersonalInformation {
     postOffice: string;
   };
   hasDisability: boolean;
+  disabilities: {
+    hearing: boolean;
+    visual: boolean;
+    mobility: boolean;
+    other: boolean;
+  };
   disabilityDetails?: string;
   wasAdmittedBefore: boolean;
   studentId?: string;

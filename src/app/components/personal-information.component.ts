@@ -529,9 +529,9 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
                 <span class="material-icons">accessibility</span>
                 Special Conditions
               </h3>
-              
+
               <div class="form-group">
-                <label class="form-label">Do you have any of the following any physical disability? *</label>
+                <label class="form-label">Do you have any physical difficulties? *</label>
                 <div class="radio-group">
                   <label class="radio-option">
                     <input
@@ -539,6 +539,7 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
                       name="hasDisability"
                       [(ngModel)]="personalInfo.hasDisability"
                       [value]="true"
+                      (change)="onDisabilityChange(true)"
                       required
                     >
                     <span class="radio-checkmark"></span>
@@ -550,6 +551,7 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
                       name="hasDisability"
                       [(ngModel)]="personalInfo.hasDisability"
                       [value]="false"
+                      (change)="onDisabilityChange(false)"
                       required
                     >
                     <span class="radio-checkmark"></span>
@@ -557,17 +559,61 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
                   </label>
                 </div>
               </div>
-              
-              <div class="form-group" *ngIf="personalInfo.hasDisability">
-                <label for="disabilityDetails" class="form-label">Please specify the disability</label>
-                <textarea
-                  id="disabilityDetails"
-                  name="disabilityDetails"
-                  [(ngModel)]="personalInfo.disabilityDetails"
-                  class="form-input"
-                  placeholder="Describe your disability"
-                  rows="3"
-                ></textarea>
+
+              <div *ngIf="personalInfo.hasDisability">
+                <div class="form-group">
+                  <label class="form-label">Please specify the difficulties (Select all that apply)</label>
+                  <div class="checkbox-group">
+                    <label class="checkbox-option">
+                      <input
+                        type="checkbox"
+                        name="hearingDisability"
+                        [(ngModel)]="personalInfo.disabilities.hearing"
+                      >
+                      <span class="checkmark"></span>
+                      Hearing difficulties
+                    </label>
+                    <label class="checkbox-option">
+                      <input
+                        type="checkbox"
+                        name="visualDisability"
+                        [(ngModel)]="personalInfo.disabilities.visual"
+                      >
+                      <span class="checkmark"></span>
+                      Visual difficulties
+                    </label>
+                    <label class="checkbox-option">
+                      <input
+                        type="checkbox"
+                        name="mobilityDisability"
+                        [(ngModel)]="personalInfo.disabilities.mobility"
+                      >
+                      <span class="checkmark"></span>
+                      Mobility and physical difficulties
+                    </label>
+                    <label class="checkbox-option">
+                      <input
+                        type="checkbox"
+                        name="otherDisability"
+                        [(ngModel)]="personalInfo.disabilities.other"
+                      >
+                      <span class="checkmark"></span>
+                      Other difficulties
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group" *ngIf="personalInfo.disabilities.other">
+                  <label for="disabilityDetails" class="form-label">Please specify other difficulties</label>
+                  <textarea
+                    id="disabilityDetails"
+                    name="disabilityDetails"
+                    [(ngModel)]="personalInfo.disabilityDetails"
+                    class="form-input"
+                    placeholder="Describe your other difficulties"
+                    rows="3"
+                  ></textarea>
+                </div>
               </div>
             </div>
             
@@ -855,8 +901,53 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
       transform: translate(-50%, -50%);
     }
 
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
     .checkbox-option {
-      margin-top: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.9rem;
+      color: #374151;
+      cursor: pointer;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .checkbox-option input[type="checkbox"] {
+      opacity: 0;
+      position: absolute;
+    }
+
+    .checkmark {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #d1d5db;
+      border-radius: 4px;
+      position: relative;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .checkbox-option input[type="checkbox"]:checked + .checkmark {
+      border-color: #8b5cf6;
+      background: #8b5cf6;
+    }
+
+    .checkbox-option input[type="checkbox"]:checked + .checkmark::after {
+      content: '✓';
+      position: absolute;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     .terms-checkbox {
@@ -1055,7 +1146,7 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
 
     .image-upload-container {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 20px;
       position: relative;
     }
@@ -1182,6 +1273,10 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
       .radio-group {
         flex-direction: column;
         gap: 16px;
+      }
+
+      .checkbox-group {
+        gap: 12px;
       }
 
       .inline-input {
@@ -1326,6 +1421,12 @@ export class PersonalInformationComponent {
       postOffice: ''
     },
     hasDisability: false,
+    disabilities: {
+      hearing: false,
+      visual: false,
+      mobility: false,
+      other: false,
+    },
     wasAdmittedBefore: false,
     studentId: ''
   };
@@ -1373,6 +1474,19 @@ export class PersonalInformationComponent {
 
   loadImageFailed() {
     // show message
+  }
+
+  onDisabilityChange(hasDisability: boolean) {
+    if (!hasDisability) {
+      // Clear all disability selections when "No" is selected
+      this.personalInfo.disabilities = {
+        hearing: false,
+        visual: false,
+        mobility: false,
+        other: false,
+      };
+      this.personalInfo.disabilityDetails = '';
+    }
   }
 
   onSubmit() {
