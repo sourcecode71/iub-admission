@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { UndergraduateSectionComponent } from './undergraduate-section.component';
 import { PostgraduateSectionComponent } from './postgraduate-section.component';
+import { AppStore } from '../store/app.store';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,19 @@ import { PostgraduateSectionComponent } from './postgraduate-section.component';
           Choose from our comprehensive range of undergraduate and postgraduate programs 
           designed to shape tomorrow's leaders and innovators.
         </p>
+      </div>
+
+      <!-- Programs from API -->
+      <div class="programs-section" *ngIf="availablePrograms.length > 0">
+        <h2 class="section-title">Available Programs</h2>
+        <div class="programs-grid">
+          <div *ngFor="let program of availablePrograms" class="program-card">
+            <h3>{{ program.programName }}</h3>
+            <p>{{ program.description }}</p>
+            <p>Form Fee: {{ program.formFee }}</p>
+            <p>Academic Session: {{ program.academicSession }}</p>
+          </div>
+        </div>
       </div>
 
       <!-- Main Content -->
@@ -246,9 +260,50 @@ import { PostgraduateSectionComponent } from './postgraduate-section.component';
         font-size: 1.8rem;
       }
     }
+
+    .programs-section {
+      margin: 40px 24px;
+    }
+
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .program-card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e5e7eb;
+    }
+
+    .program-card h3 {
+      color: #8b5cf6;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    .program-card p {
+      margin: 5px 0;
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
   `]
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  store = inject(AppStore);
+
+  ngOnInit() {
+    this.store.loadAcademicInfo();
+  }
+
+  get availablePrograms() {
+    return this.store.academicSettings()?.masterSetting?.filter(p => p.openClose != 0) || [];
+  }
+
   showLoginPage() {
     // For now, we'll just log this. Later we'll implement proper routing.
     console.log('Show login page');

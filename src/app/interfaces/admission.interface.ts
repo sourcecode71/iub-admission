@@ -126,3 +126,66 @@ export interface AdmissionData {
   financialGuarantor: FinancialGuarantor;
   academicInfo: AcademicInformation;
 }
+
+export interface ExamSettingsDTO {
+  id: number;
+  applicationYear: string;
+  applicationSemester: string;
+  admissionNo: string;
+  programId: string;
+  degreeId: string;
+  examDate: string;
+  examTime: string;
+  resultPublishDate: string;
+  registrationDate: string;
+  orianTationClass: string;
+  activeYN: string;
+  examSettingId: number;
+  formStep: number;
+  formOpenningYN: number;
+  hscResultPublishYN: number;
+  hscCgpa: number;
+  sscCgpa: number;
+  mathHscCgpa: number;
+  phyHscCgpa: number;
+  bioHscCgpa: number;
+  admissionDate: string;
+  closeDate: Date;
+  openClose: boolean;
+  masterSetting: APPMasterDTO[];
+  openPrograms: APPMasterDTO[];
+  admissionRules: IUBPolicyDetails[];
+}
+
+export interface APPMasterDTO {
+  id: number;
+  description: string;
+  programName: string;
+  openClose: number;
+  openDate: string;
+  closeDate: string;
+  admissionDate: string;
+  admissionTime?: Date;
+  openTime?: Date;
+  closeTime?: Date;
+  activeYn: number;
+  programId: number;
+  firstMajor: string;
+  formFee: number;
+  academicSession: string;
+  resultPublish: string;
+  registrationDate: string;
+  admissionTestDate: string;
+  admissionNo?: number;
+  applicationYear?: number;
+  applicationSemester?: number;
+}
+
+export interface IUBPolicyDetails {
+  id: number;
+  masterId: number;
+  code: string;
+  value: number;
+  description: string;
+  activeYn: number;
+}

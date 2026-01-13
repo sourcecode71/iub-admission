@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { LayoutComponent } from './layout.component';
+import { AppStore } from '../store/app.store';
+import { UserRegistration } from '../interfaces/user.interface';
 
 @Component({
   selector: 'app-registration',
@@ -359,7 +361,7 @@ import { LayoutComponent } from './layout.component';
 
     .form-input {
       width: 100%;
-      padding: 14px 16px;
+      padding: 8px 16px;
       border: 2px solid #e5e7eb;
       border-radius: 12px;
       font-size: 1rem;
@@ -540,6 +542,8 @@ import { LayoutComponent } from './layout.component';
   `]
 })
 export class RegistrationComponent {
+  private store = inject(AppStore);
+
   registrationData = {
     firstName: '',
     lastName: '',
@@ -565,7 +569,7 @@ export class RegistrationComponent {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  onRegister() {
+  async onRegister() {
     if (!this.acceptTerms) {
       alert('Please accept the Terms and Conditions to proceed.');
       return;
@@ -576,9 +580,33 @@ export class RegistrationComponent {
       return;
     }
 
-    console.log('Registration attempt:', this.registrationData);
-    // Add your registration logic here
-    alert('Registration functionality would be implemented here');
+    const request: UserRegistration = {
+      id: 0,
+      userEmail: this.registrationData.email,
+      newPassword: this.registrationData.password,
+      confirmPassword: this.registrationData.confirmPassword,
+      firstName: this.registrationData.firstName,
+      fullName: `${this.registrationData.firstName} ${this.registrationData.lastName}`,
+      lastName: this.registrationData.lastName,
+      countryCode: '+880', // Assuming Bangladesh
+      cellPhone: this.registrationData.phone,
+      dateOfBirth: new Date(this.registrationData.dateOfBirth),
+      token: '',
+      programId: 0, // Map from program
+      firstMajor: '',
+      degreeId: '',
+      majorId: '',
+      authCode: '',
+      authCodeStatus: ''
+    };
+
+    try {
+      await this.store.register(request);
+      alert('Registration successful!');
+      // Perhaps navigate to login
+    } catch (error) {
+      alert('Registration failed. Please try again.');
+    }
   }
 
   onLogin(event: Event) {

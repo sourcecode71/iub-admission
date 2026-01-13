@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { LayoutComponent } from './layout.component';
+import { AppStore } from '../store/app.store';
+import { LoginRequest } from '../interfaces/user.interface';
 
 @Component({
   selector: 'app-login',
@@ -330,23 +332,34 @@ import { LayoutComponent } from './layout.component';
   `]
 })
 export class LoginComponent {
+  private store = inject(AppStore);
+  private router = inject(Router);
+
   loginData = {
     email: '',
     password: ''
   };
-  
+
   showPassword = false;
   rememberMe = false;
-
-  constructor(private router: Router) {}
 
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
 
-  onLogin() {
-    console.log('Login attempt:', this.loginData);
-    // Add your login logic here
-    alert('Login functionality would be implemented here');
+  async onLogin() {
+    const request: LoginRequest = {
+      email: this.loginData.email,
+      password: this.loginData.password
+    };
+
+    try {
+      await this.store.login(request);
+      alert('Login successful!');
+      // Navigate to dashboard or home
+      this.router.navigate(['/']);
+    } catch (error) {
+      alert('Login failed. Please check your credentials.');
+    }
   }
 }
