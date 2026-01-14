@@ -12,7 +12,9 @@ import { AppStore } from '../../core/store/app.store';
   imports: [
     CommonModule,
     RouterLink,
-    LayoutComponent
+    LayoutComponent,
+    UndergraduateSectionComponent,
+    PostgraduateSectionComponent
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']

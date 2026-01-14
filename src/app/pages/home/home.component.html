@@ -9,17 +9,13 @@
     </p>
   </div>
 
-  <!-- Programs from API -->
-  <div class="programs-section" *ngIf="availablePrograms.length > 0">
-    <h2 class="section-title">Available Programs</h2>
-    <div class="programs-grid">
-      <div *ngFor="let program of availablePrograms" class="program-card">
-        <h3>{{ program.programName }}</h3>
-        <p>{{ program.description }}</p>
-        <p>Form Fee: {{ program.formFee }}</p>
-        <p>Academic Session: {{ program.academicSession }}</p>
-      </div>
-    </div>
+  <!-- Programs Sections -->
+  <div class="programs-section">
+    <h2 class="section-title">Undergraduate Programs</h2>
+    <app-undergraduate-section></app-undergraduate-section>
+
+    <h2 class="section-title">Postgraduate Programs</h2>
+    <app-postgraduate-section></app-postgraduate-section>
   </div>
 
   <!-- Main Content -->
