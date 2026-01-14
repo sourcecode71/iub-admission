@@ -22,13 +22,7 @@ import { AppStore } from '../../core/store/app.store';
 export class HomeComponent implements OnInit {
   store = inject(AppStore);
 
-  async ngOnInit() {
-    await this.store.loadAcademicInfo();
-    console.log('Available Programs:', this.availablePrograms);
-  }
-
-  get availablePrograms() {
-    return this.store.academicSettings()?.masterSetting || [];
+  ngOnInit() {
   }
 
   showLoginPage() {

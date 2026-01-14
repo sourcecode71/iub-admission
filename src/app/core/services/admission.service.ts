@@ -1,103 +1,38 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { Observable, of, map } from 'rxjs';
 import { PostgraduateProgram, UndergraduateInfo } from '../models/program.interface';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdmissionService {
+  private userService = inject(UserService);
   
   getUndergraduateInfo(): Observable<UndergraduateInfo> {
-    const data: UndergraduateInfo = {
-      academicSession: 'Autumn - 2025',
-      applicationDeadline: '25/08/2025',
-      admissionTest: 'Friday, 29th August 2025 10 AM',
-      resultPublish: '4th September 2025',
-      registration: '000000000'
-    };
-    return of(data);
+    return this.userService.loadAcademicInfo().pipe(
+      map(settings => ({
+        academicSession: `${settings.applicationSemester} - ${settings.applicationYear}`,
+        applicationDeadline: settings.closeDate.toString(),
+        admissionTest: `${settings.examDate} ${settings.examTime}`,
+        resultPublish: settings.resultPublishDate,
+        registration: settings.registrationDate
+      }))
+    );
   }
 
   getPostgraduatePrograms(): Observable<PostgraduateProgram[]> {
-    const programs: PostgraduateProgram[] = [
-      {
-        program: 'Master of Business Administration',
-        session: 'Autumn-2025',
-        applicationLastDate: '27-08-2025',
-        admissionTestDate: 'Saturday, September 06, 2025 (10:00 A.M - 12:30 P.M)',
-        status: 'Active'
-      },
-      {
-        program: 'Executive Master of Business Administration',
-        session: 'Autumn-2025',
-        applicationLastDate: '27-08-2025',
-        admissionTestDate: 'Saturday, September 06, 2025',
-        status: 'Active'
-      },
-      {
-        program: 'Master of Public Health',
-        session: 'Autumn-2025',
-        applicationLastDate: '13-09-2025',
-        admissionTestDate: 'TBA',
-        status: 'Active'
-      },
-      {
-        program: 'Master of Science/Engineering',
-        session: 'Autumn-2025',
-        applicationLastDate: '06-09-2025',
-        admissionTestDate: 'TBA',
-        status: 'Active'
-      },
-      {
-        program: 'Master in Development Studies',
-        session: 'Autumn-2025',
-        applicationLastDate: '06-09-2025',
-        admissionTestDate: 'TBA',
-        status: 'Active'
-      },
-      {
-        program: 'Master of Arts (MA in English programmes)',
-        session: 'Autumn-2025',
-        applicationLastDate: '02-09-2025',
-        admissionTestDate: 'TBA',
-        status: 'Active'
-      },
-      {
-        program: 'MSc in Environment Management',
-        session: 'Autumn-2025',
-        applicationLastDate: '04-09-2025',
-        admissionTestDate: 'TBA',
-        status: 'Active'
-      },
-      {
-        program: 'MSc in Economics',
-        session: 'Autumn-2025',
-        applicationLastDate: '04-09-2025',
-        admissionTestDate: 'TBA',
-        status: 'Active'
-      },
-      {
-        program: 'Master\'s (MSS) in Media and Communication',
-        session: 'Autumn-2025',
-        applicationLastDate: '06-09-2025',
-        admissionTestDate: 'TBA',
-        status: 'Active'
-      },
-      {
-        program: 'MSc in Biotechnology & Bioinformatics',
-        session: 'Autumn-2025',
-        applicationLastDate: '31-08-2025',
-        admissionTestDate: 'TBA',
-        status: 'Active'
-      },
-      {
-        program: 'Executive Master of Public Health',
-        session: 'Autumn-2025',
-        applicationLastDate: '13-09-2025',
-        admissionTestDate: 'TBA',
-        status: 'Active'
-      }
-    ];
-    return of(programs);
+    return this.userService.loadAcademicInfo().pipe(
+      map(settings => settings.masterSetting
+        .filter(p => p.programId === 1 || p.programId === 2)
+        .map(p => ({
+          program: p.programName,
+          session: p.academicSession,
+          applicationLastDate: p.closeDate.toString(),
+          admissionTestDate: p.admissionTestDate?.toString() || 'TBA',
+          status: p.activeYn === 1 ? 'Active' : 'Inactive'
+        }))
+      )
+    );
   }
 }
