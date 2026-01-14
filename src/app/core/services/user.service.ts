@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { User, LoginRequest, UserRegistration } from '../interfaces/user.interface';
-import { ExamSettingsDTO } from '../interfaces/admission.interface';
+import { Observable, map } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { User, LoginRequest, UserRegistration } from '../models/user.interface';
+import { ExamSettingsDTO } from '../models/admission.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,8 @@ export class UserService {
   }
 
   loadAcademicInfo(): Observable<ExamSettingsDTO> {
-    return this.http.get<ExamSettingsDTO>(`${this.apiUrl}api/v2/admission/setting/load-academic-info`);
+    return this.http.get<{ data: ExamSettingsDTO }>(`${this.apiUrl}api/v2/admission/setting/load-academic-info`).pipe(
+      map(response => response.data)
+    );
   }
 }

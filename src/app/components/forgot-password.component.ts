@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { LayoutComponent } from './layout.component';
+import { LayoutComponent } from '../shared/layout.component';
 
 @Component({
   selector: 'app-forgot-password',

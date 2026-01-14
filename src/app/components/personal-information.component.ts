@@ -2,8 +2,8 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { LayoutComponent } from './layout.component';
-import { PersonalInformation } from '../interfaces/admission.interface';
+import { LayoutComponent } from '../shared/layout.component';
+import { PersonalInformation } from '../core/models/admission.interface';
 import { ImageCropperComponent } from 'ngx-image-cropper';
 
 @Component({

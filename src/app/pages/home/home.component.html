@@ -1,0 +1,55 @@
+<app-layout>
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <h1 class="hero-title">Available Programs For Admission</h1>
+    <p class="hero-description">
+      Welcome to the Independent University, Bangladesh admission portal.
+      Choose from our comprehensive range of undergraduate and postgraduate programs
+      designed to shape tomorrow's leaders and innovators.
+    </p>
+  </div>
+
+  <!-- Programs from API -->
+  <div class="programs-section" *ngIf="availablePrograms.length > 0">
+    <h2 class="section-title">Available Programs</h2>
+    <div class="programs-grid">
+      <div *ngFor="let program of availablePrograms" class="program-card">
+        <h3>{{ program.programName }}</h3>
+        <p>{{ program.description }}</p>
+        <p>Form Fee: {{ program.formFee }}</p>
+        <p>Academic Session: {{ program.academicSession }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Important Notice -->
+    <div class="notice-section">
+      <span class="material-icons notice-icon">warning</span>
+      <div class="notice-content">
+        <h4>Important Notice</h4>
+        <p>Admission will be invalidated if false information is given. Please ensure all information provided during application is accurate and complete.</p>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="cta-section">
+      <h2 class="cta-title">Ready to Start Your Journey?</h2>
+      <p class="cta-description">
+        Join our comprehensive academic programs and embark on an exciting journey
+        to master your chosen field of study at Independent University, Bangladesh.
+      </p>
+      <div class="cta-buttons">
+        <button class="btn-primary" routerLink="/register">
+          <span class="material-icons">send</span>
+          Apply Now
+        </button>
+        <button class="btn-secondary">
+          <span class="material-icons">info</span>
+          View All Programs
+        </button>
+      </div>
+    </div>
+  </div>
+</app-layout>

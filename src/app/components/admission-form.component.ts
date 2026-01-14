@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { PersonalInformationComponent } from './personal-information.component';
 import { FinancialGuarantorComponent } from './financial-guarantor.component';
 import { AcademicInformationComponent } from './academic-information.component';
-import { AdmissionData } from '../interfaces/admission.interface';
+import { AdmissionData } from '../core/models/admission.interface';
 
 @Component({
   selector: 'app-admission-form',

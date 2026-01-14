@@ -4,7 +4,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { RouterOutlet } from '@angular/router';
 import { provideRouter } from '@angular/router';
 import { routes } from './routes';
-import { AppStore } from './app/store/app.store';
+import { AppStore } from './app/core/store/app.store';
 
 @Component({
   selector: 'app-root',

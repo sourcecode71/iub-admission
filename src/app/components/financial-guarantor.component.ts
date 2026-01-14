@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LayoutComponent } from './layout.component';
-import { FinancialGuarantor } from '../interfaces/admission.interface';
+import { LayoutComponent } from '../shared/layout.component';
+import { FinancialGuarantor } from '../core/models/admission.interface';
 
 @Component({
   selector: 'app-financial-guarantor',

@@ -5,15 +5,13 @@ import { RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { LayoutComponent } from './layout.component';
-import { AcademicInformation } from '../interfaces/admission.interface';
+import { AcademicInformation } from '../core/models/admission.interface';
 
 @Component({
   selector: 'app-academic-information',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, LayoutComponent],
+  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule],
   template: `
-    <app-layout [showHeaderActions]="false">
       <div class="admission-container">
         <div class="admission-card">
           <!-- Header -->
@@ -623,7 +621,6 @@ import { AcademicInformation } from '../interfaces/admission.interface';
           </form>
         </div>
       </div>
-    </app-layout>
   `,
   styles: [`
     .admission-container {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdmissionService } from '../services/admission.service';
-import { PostgraduateProgram } from '../interfaces/program.interface';
+import { AdmissionService } from '../core/services/admission.service';
+import { PostgraduateProgram } from '../core/models/program.interface';
 
 @Component({
   selector: 'app-postgraduate-section',

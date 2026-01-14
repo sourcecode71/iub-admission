@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdmissionService } from '../services/admission.service';
-import { UndergraduateInfo } from '../interfaces/program.interface';
+import { AdmissionService } from '../core/services/admission.service';
+import { UndergraduateInfo } from '../core/models/program.interface';
 
 @Component({
   selector: 'app-undergraduate-section',

@@ -1,0 +1,236 @@
+<app-layout [showHeaderActions]="false">
+  <div class="registration-container">
+    <div class="registration-card">
+      <!-- Header -->
+      <div class="registration-header">
+        <div class="university-logo">
+          <img src="assets/iub_logo.png" alt="IUB Logo" class="logo-image">
+        </div>
+        <h1 class="registration-title">Create Your Account</h1>
+        <p class="registration-subtitle">Join Independent University, Bangladesh</p>
+      </div>
+
+      <!-- Registration Form -->
+      <form class="registration-form" (ngSubmit)="onRegister()">
+        <!-- Personal Information -->
+        <div class="form-section">
+          <h3 class="section-title">
+            <span class="material-icons">person</span>
+            Personal Information
+          </h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName" class="form-label">First Name</label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                [(ngModel)]="registrationData.firstName"
+                class="form-input"
+                placeholder="Enter your first name"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lastName" class="form-label">Last Name</label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                [(ngModel)]="registrationData.lastName"
+                class="form-input"
+                placeholder="Enter your last name"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              [(ngModel)]="registrationData.email"
+              class="form-input"
+              placeholder="Enter your email address"
+              required
+            />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone" class="form-label">Phone Number</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                [(ngModel)]="registrationData.phone"
+                class="form-input"
+                placeholder="Enter your phone number"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="dateOfBirth" class="form-label">Date of Birth</label>
+              <input
+                type="date"
+                id="dateOfBirth"
+                name="dateOfBirth"
+                [(ngModel)]="registrationData.dateOfBirth"
+                class="form-input"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Security -->
+        <div class="form-section">
+          <h3 class="section-title">
+            <span class="material-icons">security</span>
+            Account Security
+          </h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="password" class="form-label">Password</label>
+              <div class="password-input-container">
+                <input
+                  [type]="showPassword ? 'text' : 'password'"
+                  id="password"
+                  name="password"
+                  [(ngModel)]="registrationData.password"
+                  class="form-input"
+                  placeholder="Create a strong password"
+                  required
+                />
+                <button
+                  type="button"
+                  class="password-toggle"
+                  (click)="togglePassword()"
+                >
+                  <span class="material-icons">
+                    {{ showPassword ? 'visibility_off' : 'visibility' }}
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword" class="form-label">Confirm Password</label>
+              <div class="password-input-container">
+                <input
+                  [type]="showConfirmPassword ? 'text' : 'password'"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  [(ngModel)]="registrationData.confirmPassword"
+                  class="form-input"
+                  placeholder="Confirm your password"
+                  required
+                />
+                <button
+                  type="button"
+                  class="password-toggle"
+                  (click)="toggleConfirmPassword()"
+                >
+                  <span class="material-icons">
+                    {{ showConfirmPassword ? 'visibility_off' : 'visibility' }}
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Program Selection -->
+        <div class="form-section">
+          <h3 class="section-title">
+            <span class="material-icons">school</span>
+            Program Selection
+          </h3>
+
+          <div class="form-group">
+            <label for="programType" class="form-label">Program Type</label>
+            <select
+              id="programType"
+              name="programType"
+              [(ngModel)]="registrationData.programType"
+              class="form-input"
+              required
+            >
+              <option value="">Select program type</option>
+              <option value="undergraduate">Undergraduate</option>
+              <option value="postgraduate">Postgraduate</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="program" class="form-label">Preferred Program</label>
+            <select
+              id="program"
+              name="program"
+              [(ngModel)]="registrationData.program"
+              class="form-input"
+              required
+            >
+              <option value="">Select your preferred program</option>
+              <option value="cse">Computer Science & Engineering</option>
+              <option value="eee">Electrical & Electronic Engineering</option>
+              <option value="bba">Business Administration</option>
+              <option value="law">Law</option>
+              <option value="english">English</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Terms and Conditions -->
+        <div class="form-section">
+          <div class="terms-group">
+            <label class="terms-checkbox">
+              <input
+                type="checkbox"
+                [(ngModel)]="acceptTerms"
+                name="acceptTerms"
+                required
+              >
+              <span class="checkmark"></span>
+              I accept the
+              <a href="#" class="terms-link">Terms and Conditions</a> and
+              <a href="#" class="terms-link">Privacy Policy</a>
+            </label>
+
+            <label class="terms-checkbox">
+              <input
+                type="checkbox"
+                [(ngModel)]="newsletter"
+                name="newsletter"
+              >
+              <span class="checkmark"></span>
+              I want to receive updates and newsletters
+            </label>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="register-button" [disabled]="!acceptTerms">
+          <span class="material-icons">person_add</span>
+          Create Account
+        </button>
+      </form>
+
+      <!-- Footer -->
+      <div class="registration-footer">
+        <p>Already have an account?
+          <a routerLink="/login" class="login-link">
+            <span class="material-icons">check_circle_outline</span>
+            Login
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</app-layout>

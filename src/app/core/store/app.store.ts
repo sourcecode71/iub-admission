@@ -2,8 +2,8 @@ import { inject } from '@angular/core';
 import { signalStore, withState, withMethods, patchState } from '@ngrx/signals';
 import { firstValueFrom } from 'rxjs';
 import { UserService } from '../services/user.service';
-import { User, LoginRequest, UserRegistration } from '../interfaces/user.interface';
-import { ExamSettingsDTO } from '../interfaces/admission.interface';
+import { User, LoginRequest, UserRegistration } from '../models/user.interface';
+import { ExamSettingsDTO } from '../models/admission.interface';
 
 export const AppStore = signalStore(
   withState({

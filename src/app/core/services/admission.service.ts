@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { PostgraduateProgram, UndergraduateInfo } from '../interfaces/program.interface';
+import { PostgraduateProgram, UndergraduateInfo } from '../models/program.interface';
 
 @Injectable({
   providedIn: 'root'

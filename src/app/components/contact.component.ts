@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LayoutComponent } from './layout.component';
+import { LayoutComponent } from '../shared/layout.component';
 
 @Component({
   selector: 'app-contact',
