@@ -31,7 +31,7 @@ import { UndergraduateInfo } from '../core/models/program.interface';
           <div class="detail-item">
             <span class="material-icons detail-icon">schedule</span>
             <span class="detail-label">Application Deadline:</span>
-            <span class="detail-value deadline-value">{{ undergraduateInfo.applicationDeadline }}</span>
+            <span class="detail-value deadline-value">{{ undergraduateInfo.applicationDeadline }}  </span>
           </div>
           
           <div class="detail-item">
@@ -83,7 +83,7 @@ export class UndergraduateSectionComponent implements OnInit {
 
   ngOnInit() {
     this.admissionService.getUndergraduateInfo().subscribe(
-      data => this.undergraduateInfo = data
+      data => this.undergraduateInfo = data.length > 0 ? data[0] : null
     );
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { User, LoginRequest, UserRegistration } from '../models/user.interface';
 import { ExamSettingsDTO } from '../models/admission.interface';
@@ -11,6 +12,7 @@ import { ExamSettingsDTO } from '../models/admission.interface';
 export class UserService {
 
   private apiUrl = environment.apiBaseUrl;
+  private academicInfo$?: Observable<ExamSettingsDTO>;
 
   constructor(private http: HttpClient) {}
 
@@ -23,8 +25,12 @@ export class UserService {
   }
 
   loadAcademicInfo(): Observable<ExamSettingsDTO> {
-    return this.http.get<{ data: ExamSettingsDTO }>(`${this.apiUrl}api/v2/admission/setting/load-academic-info`).pipe(
-      map(response => response.data)
-    );
+    if (!this.academicInfo$) {
+      this.academicInfo$ = this.http.get<{ data: ExamSettingsDTO }>(`${this.apiUrl}api/v2/admission/setting/load-academic-info`).pipe(
+        map(response => response.data),
+        shareReplay(1)
+      );
+    }
+    return this.academicInfo$;
   }
 }
