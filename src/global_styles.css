@@ -7,10 +7,14 @@
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f8f9fa;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+  color: #67757c;
+  font-weight: 300;
+  background: #2f3d4a;
   line-height: 1.6;
-  color: #333;
+  font-size: 18px;
 }
 
 .container {

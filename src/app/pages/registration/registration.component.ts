@@ -1,10 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { LayoutComponent } from '../../shared/layout.component';
 import { AppStore } from '../../core/store/app.store';
 import { UserRegistration } from '../../core/models/user.interface';
+import { UserService } from '../../core/services/user.service';
+import { APPMasterDTO } from '../../core/models/admission.interface';
 
 @Component({
   selector: 'app-registration',

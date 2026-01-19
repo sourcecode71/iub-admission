@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdmissionService } from '../core/services/admission.service';
 import { UndergraduateInfo } from '../core/models/program.interface';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-undergraduate-section',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   template: `
     <div class="programs-grid">
       <!-- Undergraduate Programs Card -->
@@ -54,7 +55,7 @@ import { UndergraduateInfo } from '../core/models/program.interface';
         </div>
         
         <div class="program-actions">
-          <button class="btn-primary">
+          <button class="btn-primary" routerLink="/register">
             <span class="material-icons">send</span>
             Apply Now
           </button>

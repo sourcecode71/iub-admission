@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdmissionService } from '../core/services/admission.service';
 import { PostgraduateProgram } from '../core/models/program.interface';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-postgraduate-section',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   template: `
     <div class="programs-grid">
       <div class="program-card" *ngFor="let program of postgraduatePrograms">
@@ -37,7 +38,7 @@ import { PostgraduateProgram } from '../core/models/program.interface';
         </div>
         
         <div class="program-actions">
-          <button class="apply-button">
+          <button class="apply-button" routerLink="/register">
             <span class="material-icons">send</span>
             Apply
           </button>
