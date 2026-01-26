@@ -9,7 +9,9 @@ export const AppStore = signalStore(
   withState({
     user: null as User | null,
     isLoggedIn: false,
-    academicSettings: null as ExamSettingsDTO | null
+    academicSettings: null as ExamSettingsDTO | null,
+    selectedProgramType: '' as string,
+    selectedProgram: '' as string
   }),
   withMethods((store) => {
     const userService = inject(UserService);
@@ -41,6 +43,9 @@ export const AppStore = signalStore(
         } catch (error) {
           console.error('Failed to load academic info', error);
         }
+      },
+      setSelectedProgram(type: string, program: string) {
+        patchState(store, { selectedProgramType: type, selectedProgram: program });
       }
     };
   })

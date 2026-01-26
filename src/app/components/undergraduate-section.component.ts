@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdmissionService } from '../core/services/admission.service';
 import { UndergraduateInfo } from '../core/models/program.interface';
 import { RouterLink } from '@angular/router';
+import { AppStore } from '../core/store/app.store';
 
 @Component({
   selector: 'app-undergraduate-section',
@@ -55,7 +56,7 @@ import { RouterLink } from '@angular/router';
         </div>
         
         <div class="program-actions">
-          <button class="btn-primary" routerLink="/register">
+          <button class="btn-primary" (click)="applyForUndergraduate()" routerLink="/register">
             <span class="material-icons">send</span>
             Apply Now
           </button>
@@ -79,6 +80,7 @@ import { RouterLink } from '@angular/router';
 })
 export class UndergraduateSectionComponent implements OnInit {
   undergraduateInfo: UndergraduateInfo | null = null;
+  private store = inject(AppStore);
 
   constructor(private admissionService: AdmissionService) {}
 
@@ -86,5 +88,9 @@ export class UndergraduateSectionComponent implements OnInit {
     this.admissionService.getUndergraduateInfo().subscribe(
       data => this.undergraduateInfo = data.length > 0 ? data[0] : null
     );
+  }
+
+  applyForUndergraduate() {
+    this.store.setSelectedProgram('1', '');
   }
 }

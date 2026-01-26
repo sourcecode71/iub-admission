@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 import { LayoutComponent } from '../../shared/layout.component';
 import { AppStore } from '../../core/store/app.store';
 import { UserRegistration } from '../../core/models/user.interface';
@@ -15,8 +15,13 @@ import { APPMasterDTO } from '../../core/models/admission.interface';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css']
 })
-export class RegistrationComponent {
+export class RegistrationComponent implements OnInit {
   private store = inject(AppStore);
+
+  ngOnInit() {
+    this.registrationData.programType = this.store.selectedProgramType();
+    this.registrationData.program = this.store.selectedProgram();
+  }
 
   registrationData = {
     firstName: '',
@@ -66,7 +71,7 @@ export class RegistrationComponent {
       cellPhone: this.registrationData.phone,
       dateOfBirth: new Date(this.registrationData.dateOfBirth),
       token: '',
-      programId: 0, // Map from program
+      programId: this.registrationData.programType === '1' ? 1 : parseInt(this.registrationData.program, 10),
       firstMajor: '',
       degreeId: '',
       majorId: '',

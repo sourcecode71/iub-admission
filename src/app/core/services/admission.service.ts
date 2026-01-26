@@ -25,8 +25,8 @@ export class AdmissionService {
         .map(p => ({
           academicSession: `${this.getSemesterName(p.applicationSemester ?? 0)} ${p.applicationYear ?? ''}`.trim(),
           applicationDeadline: new Date(p.closeDate).toLocaleDateString('en-GB'),
-          admissionTest: p.admissionTestDate ? new Date(p.admissionTestDate).toLocaleDateString('en-GB') : 'TBA',
-          resultPublish: p.resultPublish,
+          admissionTest: p.admissionDate ? p.admissionDate : 'TBA',
+          resultPublish: settings.resultPublishDate,
           registration: p.registrationDate
         }))
       )
@@ -41,7 +41,7 @@ export class AdmissionService {
           program: p.description,
           session:`${this.getSemesterName(p.applicationSemester ?? 0)} ${p.applicationYear ?? ''}`.trim(),
           applicationLastDate: new Date(p.closeDate).toLocaleDateString('en-GB'),
-          admissionTestDate: p.admissionTestDate ? new Date(p.admissionTestDate).toLocaleDateString('en-GB') : 'TBA',
+          admissionTestDate: p.admissionDate ? p.admissionDate : 'TBA',
           status: p.activeYn === 1 ? 'Active' : 'Inactive'
         }))
       )

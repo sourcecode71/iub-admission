@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdmissionService } from '../core/services/admission.service';
 import { PostgraduateProgram } from '../core/models/program.interface';
 import { RouterLink } from '@angular/router';
+import { AppStore } from '../core/store/app.store';
 
 @Component({
   selector: 'app-postgraduate-section',
@@ -21,14 +22,14 @@ import { RouterLink } from '@angular/router';
             <span class="detail-label">Season:</span>
             <span class="detail-value session">{{ program.session }}</span>
           </div>
-          
+
           <div class="detail-line">
             <span class="material-icons detail-icon">schedule</span>
             <span class="detail-label">Application Deadline:</span>
             <span class="detail-value deadline">{{ program.applicationLastDate }}</span>
           </div>
-          
-          <div class="detail-line" [class.wrap-content]="program.admissionTestDate.length > 20">
+
+          <div class="detail-line">
             <span class="material-icons detail-icon">assignment</span>
             <span class="detail-label">Admission Test:</span>
             <span class="detail-value" [class]="program.admissionTestDate === 'TBA' ? 'tba' : 'test-date'">
@@ -38,7 +39,7 @@ import { RouterLink } from '@angular/router';
         </div>
         
         <div class="program-actions">
-          <button class="apply-button" routerLink="/register">
+          <button class="apply-button" (click)="applyForProgram(program)" routerLink="/register">
             <span class="material-icons">send</span>
             Apply
           </button>
@@ -185,6 +186,7 @@ import { RouterLink } from '@angular/router';
 })
 export class PostgraduateSectionComponent implements OnInit {
   postgraduatePrograms: PostgraduateProgram[] = [];
+  private store = inject(AppStore);
 
   constructor(private admissionService: AdmissionService) {}
 
@@ -192,5 +194,21 @@ export class PostgraduateSectionComponent implements OnInit {
     this.admissionService.getPostgraduatePrograms().subscribe(
       data => this.postgraduatePrograms = data
     );
+  }
+
+  applyForProgram(prog: PostgraduateProgram) {
+    const programId = this.getProgramId(prog.program);
+    this.store.setSelectedProgram('2', programId);
+  }
+
+  private getProgramId(name: string): string {
+    switch (name) {
+      case 'Computer Science & Engineering': return '2';
+      case 'Electrical & Electronic Engineering': return '3';
+      case 'Business Administration': return '4';
+      case 'Law': return '5';
+      case 'English': return '6';
+      default: return '';
+    }
   }
 }
